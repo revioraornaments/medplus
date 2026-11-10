@@ -48,7 +48,7 @@
       var primaryLoaded = false;
       var fallbackLoaded = false;
       var primary = document.createElement('script');
-      primary.src = 'https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4'; 
+      primary.src = 'https://cdn.jsdelivr.net/npm/tailwindcss@3.4.1/lib/index.min.js'; 
       primary.onload = function () { primaryLoaded = true; };
       primary.onerror = function () { primaryLoaded = false; };
       document.head.appendChild(primary);
