@@ -1,0 +1,2270 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0F766E" />
+  <title>MedPlus Hospital — Your Health, Our Priority</title>
+  <meta name="description" content="Compassionate care, expert specialists, and modern facilities — all under one roof." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏥</text></svg>" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap" rel="stylesheet" />
+
+  <!-- Hardened Tailwind loader: primary CDN → jsDelivr v4 fallback → visitor warning -->
+  <script>
+    (function () {
+      var TW_CONFIG = {
+        theme: {
+          extend: {
+            colors: {
+              primary: { DEFAULT: '#0F766E', dark: '#115E59' },
+              mint: '#5EEAD4',
+              cream: '#FAFAF9',
+              charcoal: '#1F2937',
+              coral: { DEFAULT: '#F97316', dark: '#EA580C' },
+            },
+            fontFamily: {
+              display: ['"Playfair Display"', 'serif'],
+              body: ['Inter', 'sans-serif'],
+            },
+            boxShadow: {
+              soft: '0 10px 40px -12px rgba(15,118,110,0.18)',
+              card: '0 4px 24px -6px rgba(31,41,55,0.08)',
+            },
+          },
+        },
+      };
+      /* Tailwind v3 reads its config before its CDN script executes. */
+      window.tailwind = window.tailwind || {};
+      window.tailwind.config = TW_CONFIG;
+
+      var primaryLoaded = false;
+      var fallbackLoaded = false;
+      var primary = document.createElement('script');
+      primary.src = 'https://cdn.tailwindcss.com';
+      primary.onload = function () { primaryLoaded = true; };
+      primary.onerror = function () { primaryLoaded = false; };
+      document.head.appendChild(primary);
+
+      setTimeout(function () {
+        if (primaryLoaded) return;
+        /* Prevent a late v3 response racing with the v4 fallback. */
+        if (primary.parentNode) primary.parentNode.removeChild(primary);
+        var backup = document.createElement('script');
+        backup.src = 'https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4';
+        backup.onload = function () { fallbackLoaded = true; };
+        backup.onerror = function () { fallbackLoaded = false; };
+        document.head.appendChild(backup);
+
+        setTimeout(function () {
+          if (primaryLoaded || fallbackLoaded) return;
+          var warn = document.createElement('div');
+          warn.style.cssText =
+            'position:fixed;bottom:16px;left:16px;right:16px;z-index:9999;' +
+            'background:#FEF2F2;color:#991B1B;border:1px solid #FECACA;' +
+            'padding:12px 16px;border-radius:12px;font:14px system-ui,sans-serif;text-align:center';
+          warn.textContent =
+            '\u26A0 Styling failed to load. Check your internet connection and refresh the page.';
+          document.body.appendChild(warn);
+        }, 6000);
+      }, 4000);
+    })();
+  </script>
+
+  <style type="text/tailwindcss">
+    /* Theme tokens for the v4 fallback (ignored harmlessly by v3) */
+    @theme {
+      --color-primary: #0F766E;
+      --color-primary-dark: #115E59;
+      --color-mint: #5EEAD4;
+      --color-cream: #FAFAF9;
+      --color-charcoal: #1F2937;
+      --color-coral: #F97316;
+      --color-coral-dark: #EA580C;
+      --font-display: "Playfair Display", serif;
+      --font-body: Inter, sans-serif;
+      --shadow-soft: 0 10px 40px -12px rgb(15 118 110 / 0.18);
+      --shadow-card: 0 4px 24px -6px rgb(31 41 55 / 0.08);
+    }
+
+    @layer components {
+      .container-x { @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8; }
+      /* FIX: focus-visible rings added for keyboard accessibility */
+      .btn-coral { @apply inline-flex items-center justify-center gap-2 rounded-full bg-coral px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-coral/30 transition-all duration-300 hover:-translate-y-0.5 hover:bg-coral-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-coral focus-visible:ring-offset-2; }
+      .btn-outline { @apply inline-flex items-center justify-center gap-2 rounded-full border-2 border-primary bg-transparent px-6 py-3 text-sm font-semibold text-primary transition-all duration-300 hover:bg-primary hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2; }
+      .btn-teal { @apply inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white transition-all duration-300 hover:bg-primary-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2; }
+      .input { @apply w-full rounded-xl border border-gray-300 bg-white px-4 py-2.5 text-sm text-charcoal shadow-sm transition placeholder:text-gray-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20; }
+      .label { @apply mb-1.5 block text-sm font-medium text-charcoal; }
+      .error-text { @apply mt-1.5 block text-xs font-medium text-red-600; }
+      .chip { @apply rounded-full bg-mint/20 px-3 py-0.5 text-xs font-semibold text-primary-dark; }
+      .tag { @apply rounded-full bg-teal-50 px-3 py-1 text-xs font-medium text-primary-dark; }
+      .eyebrow { @apply mb-3 inline-block rounded-full bg-mint/20 px-4 py-1 text-xs font-semibold uppercase tracking-widest text-primary-dark; }
+    }
+  </style>
+
+  <style>
+    .blob { position: absolute; border-radius: 9999px; filter: blur(64px); }
+    .blob-1 { width: 520px; height: 520px; top: -12%; left: -10%;  background: rgba(15,118,110,.20); animation: drift1 28s ease-in-out infinite; }
+    .blob-2 { width: 460px; height: 460px; top: 8%;   right: -12%; background: rgba(94,234,212,.35); animation: drift2 24s ease-in-out infinite; }
+    .blob-3 { width: 420px; height: 420px; bottom: -18%; left: 28%; background: rgba(249,115,22,.13); animation: drift3 32s ease-in-out infinite; }
+    .blob-4 { width: 360px; height: 360px; bottom: -12%; right: 16%; background: rgba(20,184,166,.18); animation: drift4 26s ease-in-out infinite; }
+    @keyframes drift1 { 0%,100% { transform: translate(0,0); } 33% { transform: translate(70px,40px); } 66% { transform: translate(-20px,-30px); } }
+    @keyframes drift2 { 0%,100% { transform: translate(0,0); } 33% { transform: translate(-60px,50px); } 66% { transform: translate(30px,-20px); } }
+    @keyframes drift3 { 0%,100% { transform: translate(0,0); } 33% { transform: translate(50px,-35px); } 66% { transform: translate(-40px,25px); } }
+    @keyframes drift4 { 0%,100% { transform: translate(0,0); } 33% { transform: translate(-45px,-30px); } 66% { transform: translate(25px,20px); } }
+
+    .ecg-path { stroke-dasharray: 3200; stroke-dashoffset: 3200; opacity: 0; animation: ecgdraw 9s ease-in-out infinite; }
+    .ecg-2 { animation-duration: 11s; animation-delay: 2.5s; }
+    @keyframes ecgdraw {
+      0%   { stroke-dashoffset: 3200; opacity: 0; }
+      12%  { opacity: .7; }
+      70%  { stroke-dashoffset: 0; opacity: .7; }
+      100% { stroke-dashoffset: 0; opacity: 0; }
+    }
+
+    .particle { position: absolute; border-radius: 9999px; background: #5EEAD4; bottom: -20px; opacity: 0; animation: rise linear infinite; }
+    @keyframes rise {
+      0%   { transform: translateY(0); opacity: 0; }
+      12%  { opacity: var(--o); }
+      80%  { opacity: var(--o); }
+      100% { transform: translateY(-115vh); opacity: 0; }
+    }
+
+    .ripple {
+      position: absolute; left: 50%; top: 50%; width: 14rem; height: 14rem;
+      border: 2px solid rgba(45,212,191,.5); border-radius: 9999px;
+      transform: translate(-50%,-50%); opacity: 0;
+      animation: heartbeat 4.6s ease-out infinite;
+    }
+    @keyframes heartbeat {
+      0%   { transform: translate(-50%,-50%) scale(.6); opacity: 0; }
+      6%   { opacity: .4; }
+      50%  { transform: translate(-50%,-50%) scale(2.6); opacity: 0; }
+      100% { transform: translate(-50%,-50%) scale(2.6); opacity: 0; }
+    }
+
+    [data-reveal] { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
+    [data-reveal].revealed { opacity: 1; transform: none; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .blob, .particle, .ripple, .ecg-path { animation: none !important; }
+      .ecg-path { stroke-dashoffset: 0; opacity: .25; }
+      .ripple, .particle { display: none; }
+      [data-reveal] { opacity: 1; transform: none; transition: none; }
+    }
+  </style>
+
+  <noscript><style>[data-reveal]{opacity:1 !important;transform:none !important}.page{display:block !important}</style></noscript>
+</head>
+
+<body class="bg-cream font-body text-charcoal antialiased">
+
+  <!-- ════════════ NAVBAR ════════════ -->
+  <header id="site-header" class="sticky top-0 z-50 border-b border-transparent bg-white/50 backdrop-blur-md transition-all duration-300">
+    <nav class="container-x flex h-16 items-center justify-between md:h-20">
+      <a href="#/" class="flex items-center gap-2.5" aria-label="MedPlus Hospital home">
+        <span id="brand-icon" class="relative flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-primary text-white shadow-soft">
+          <i data-lucide="heart-pulse" class="h-5 w-5"></i>
+        </span>
+        <span class="leading-tight">
+          <span class="block font-display text-xl font-bold text-charcoal">MedPlus</span>
+          <span class="block text-[10px] font-semibold uppercase tracking-[0.25em] text-primary">Hospital</span>
+        </span>
+      </a>
+
+      <div class="hidden items-center gap-8 md:flex">
+        <a href="#/" data-route="home" class="nav-link border-b-2 border-transparent pb-1 text-sm font-medium text-gray-600 transition-colors hover:text-primary">Home</a>
+        <a href="#/doctors" data-route="doctors" class="nav-link border-b-2 border-transparent pb-1 text-sm font-medium text-gray-600 transition-colors hover:text-primary">Doctors</a>
+        <a href="#/about" data-route="about" class="nav-link border-b-2 border-transparent pb-1 text-sm font-medium text-gray-600 transition-colors hover:text-primary">About</a>
+        <a href="#/contact" data-route="contact" class="nav-link border-b-2 border-transparent pb-1 text-sm font-medium text-gray-600 transition-colors hover:text-primary">Contact</a>
+        <a href="#/book" class="btn-coral !px-5 !py-2.5"><i data-lucide="calendar-check" class="h-4 w-4"></i>Book Appointment</a>
+      </div>
+
+      <button id="menu-btn" class="flex h-10 w-10 items-center justify-center rounded-xl text-charcoal transition hover:bg-teal-50 md:hidden" aria-label="Toggle menu" aria-expanded="false">
+        <i data-lucide="menu" id="icon-menu" class="h-6 w-6"></i>
+        <i data-lucide="x" id="icon-close" class="hidden h-6 w-6"></i>
+      </button>
+    </nav>
+
+    <div id="mobile-menu" class="hidden border-t border-teal-100/70 bg-white/95 backdrop-blur-xl md:hidden">
+      <div class="container-x flex flex-col gap-1 py-4">
+        <a href="#/" data-route="home" class="nav-link mobile-link rounded-xl px-4 py-3 text-sm font-medium text-gray-700 hover:bg-teal-50">Home</a>
+        <a href="#/doctors" data-route="doctors" class="nav-link mobile-link rounded-xl px-4 py-3 text-sm font-medium text-gray-700 hover:bg-teal-50">Doctors</a>
+        <a href="#/about" data-route="about" class="nav-link mobile-link rounded-xl px-4 py-3 text-sm font-medium text-gray-700 hover:bg-teal-50">About</a>
+        <a href="#/contact" data-route="contact" class="nav-link mobile-link rounded-xl px-4 py-3 text-sm font-medium text-gray-700 hover:bg-teal-50">Contact</a>
+        <a href="#/book" class="btn-coral mt-3"><i data-lucide="calendar-check" class="h-4 w-4"></i>Book Appointment</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ════════════ HOME ════════════ -->
+    <section id="page-home" class="page">
+
+      <!-- HERO -->
+      <div class="relative isolate flex min-h-[88vh] items-center overflow-hidden">
+        <div class="absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
+          <div class="absolute inset-0 bg-gradient-to-br from-teal-50 via-cream to-orange-50"></div>
+          <div class="blob blob-1"></div>
+          <div class="blob blob-2"></div>
+          <div class="blob blob-3"></div>
+          <div class="blob blob-4"></div>
+
+          <svg class="absolute left-0 top-[22%] h-40 w-full opacity-60" viewBox="0 0 1200 200" preserveAspectRatio="none">
+            <path class="ecg-path" fill="none" stroke="#0F766E" stroke-width="2" stroke-linecap="round"></path>
+          </svg>
+          <svg class="absolute bottom-[10%] h-40 w-full opacity-50" style="transform:scaleY(-1)" viewBox="0 0 1200 200" preserveAspectRatio="none">
+            <path class="ecg-path ecg-2" fill="none" stroke="#5EEAD4" stroke-width="2.5" stroke-linecap="round"></path>
+          </svg>
+
+          <div id="particles" class="absolute inset-0"></div>
+
+          <span class="ripple" style="animation-delay:0s"></span>
+          <span class="ripple" style="animation-delay:.5s"></span>
+
+          <div class="absolute inset-0 bg-gradient-to-b from-white/40 via-transparent to-cream"></div>
+        </div>
+
+        <div class="container-x relative py-28 text-center">
+          <div class="mx-auto mb-7 inline-flex items-center gap-2 rounded-full border border-teal-200/70 bg-white/70 px-4 py-1.5 text-xs font-semibold text-primary-dark backdrop-blur">
+            <span class="relative flex h-2 w-2">
+              <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-mint opacity-75"></span>
+              <span class="relative inline-flex h-2 w-2 rounded-full bg-primary"></span>
+            </span>
+            Accepting new patients
+          </div>
+          <h1 class="mx-auto max-w-3xl font-display text-4xl font-bold leading-tight text-charcoal sm:text-5xl lg:text-6xl">
+            Your Health, <span class="italic text-primary">Our Priority.</span>
+          </h1>
+          <p class="mx-auto mt-6 max-w-xl text-base leading-relaxed text-gray-600 sm:text-lg">
+            Compassionate care, expert specialists, and modern facilities — all under one roof.
+          </p>
+          <div class="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <a href="#/book" class="btn-coral"><i data-lucide="heart-pulse" class="h-4 w-4"></i>Book Appointment</a>
+            <a href="#/doctors" class="btn-outline bg-white/60 backdrop-blur">Meet Our Doctors<i data-lucide="arrow-right" class="h-4 w-4"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Trust badges -->
+      <div class="relative z-10 -mt-14 px-4">
+        <div data-reveal class="container-x">
+          <div class="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-teal-100 bg-teal-100/60 shadow-card md:grid-cols-4">
+            <div class="flex items-center gap-3.5 bg-white p-5"><span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-mint/20 text-primary"><i data-lucide="shield-check" class="h-5 w-5"></i></span><div><p class="text-sm font-semibold text-charcoal">Certified Specialists</p><p class="text-xs text-gray-500">Board-certified doctors</p></div></div>
+            <div class="flex items-center gap-3.5 bg-white p-5"><span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-mint/20 text-primary"><i data-lucide="users" class="h-5 w-5"></i></span><div><p class="text-sm font-semibold text-charcoal">25,000+ Patients</p><p class="text-xs text-gray-500">Served with care</p></div></div>
+            <div class="flex items-center gap-3.5 bg-white p-5"><span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-mint/20 text-primary"><i data-lucide="clock" class="h-5 w-5"></i></span><div><p class="text-sm font-semibold text-charcoal">Same-Day Slots</p><p class="text-xs text-gray-500">Quick appointments</p></div></div>
+            <div class="flex items-center gap-3.5 bg-white p-5"><span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-mint/20 text-primary"><i data-lucide="heart-pulse" class="h-5 w-5"></i></span><div><p class="text-sm font-semibold text-charcoal">24/7 Emergency</p><p class="text-xs text-gray-500">Always here for you</p></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Specialties -->
+      <div class="container-x py-20 sm:py-24">
+        <div data-reveal class="mb-12 text-center">
+          <span class="eyebrow">What we treat</span>
+          <h2 class="font-display text-3xl font-bold sm:text-4xl">Our Specialities</h2>
+          <p class="mx-auto mt-3 max-w-xl text-gray-600">Five centres of excellence, each led by a senior specialist who knows you by name.</p>
+        </div>
+        <div id="specialties" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"></div>
+      </div>
+
+      <!-- Doctors preview -->
+      <div class="bg-white py-20 sm:py-24">
+        <div class="container-x">
+          <div data-reveal class="mb-12 text-center">
+            <span class="eyebrow">Our team</span>
+            <h2 class="font-display text-3xl font-bold sm:text-4xl">Doctors Who Care</h2>
+            <p class="mx-auto mt-3 max-w-xl text-gray-600">Experienced, board-certified, and genuinely kind — the people behind MedPlus.</p>
+          </div>
+          <div id="home-doctors" class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3"></div>
+          <div data-reveal class="mt-12 text-center">
+            <a href="#/doctors" class="btn-outline">View All Doctors<i data-lucide="arrow-right" class="h-4 w-4"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quotes band -->
+      <div class="relative overflow-hidden bg-gradient-to-br from-primary via-teal-700 to-primary-dark py-16 text-white sm:py-20">
+        <div class="absolute -left-20 top-0 h-64 w-64 rounded-full bg-mint/15 blur-3xl"></div>
+        <div class="absolute -bottom-0 -right-16 h-64 w-64 rounded-full bg-coral/15 blur-3xl"></div>
+        <div class="container-x relative text-center">
+          <i data-lucide="quote" class="mx-auto h-9 w-9 text-mint"></i>
+          <div class="mt-6 flex min-h-[110px] items-center justify-center sm:min-h-[130px]">
+            <blockquote id="quote-rotator" class="mx-auto max-w-2xl text-center font-display text-2xl italic leading-snug transition-opacity duration-500 sm:text-3xl">
+              “Healing with heart, treating with science.”
+            </blockquote>
+          </div>
+          <p class="mt-6 text-center text-xs font-semibold uppercase tracking-[0.3em] text-mint/80">The MedPlus promise</p>
+        </div>
+      </div>
+
+      <!-- Testimonials -->
+      <div class="container-x py-20 sm:py-24">
+        <div data-reveal class="mb-12 text-center">
+          <span class="eyebrow">Patient stories</span>
+          <h2 class="font-display text-3xl font-bold sm:text-4xl">Words From Our Patients</h2>
+          <p class="mx-auto mt-3 max-w-xl text-gray-600">Real experiences from the families who trust us with their health.</p>
+        </div>
+        <div class="grid gap-6 md:grid-cols-3">
+          <div data-reveal class="h-full"><figure class="flex h-full flex-col rounded-2xl border border-teal-100/80 bg-white p-6 shadow-card"><div class="flex gap-1 text-amber-400" aria-label="5 star rating"><i data-lucide="star" class="h-4 w-4" fill="currentColor"></i><i data-lucide="star" class="h-4 w-4" fill="currentColor"></i><i data-lucide="star" class="h-4 w-4" fill="currentColor"></i><i data-lucide="star" class="h-4 w-4" fill="currentColor"></i><i data-lucide="star" class="h-4 w-4" fill="currentColor"></i></div><blockquote class="mt-4 flex-1 text-sm leading-relaxed text-gray-600">“From reception to recovery, every step felt personal. Dr. Ritika Sahu guided us through my wife’s pregnancy with such warmth and confidence.”</blockquote><figcaption class="mt-5 flex items-center gap-3 border-t border-teal-50 pt-4"><span class="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 font-semibold text-primary">R</span><div><p class="text-sm font-semibold text-charcoal">Rohan D.</p><p class="text-xs text-gray-500">Obstetrics</p></div></figcaption></figure></div>
+          <div data-reveal class="h-full" style="transition-delay:100ms"><figure class="flex h-full flex-col rounded-2xl border border-teal-100/80 bg-white p-6 shadow-card"><div class="flex gap-1 text-amber-400" aria-label="5 star rating"><i data-lucide="star" class="h-4 w-4" fill="currentColor"></i><i data-lucide="star" class="h-4 w-4" fill="currentColor"></i><i data-lucide="star" class="h-4 w-4" fill="currentColor"></i><i data-lucide="star" class="h-4 w-4" fill="currentColor"></i><i data-lucide="star" class="h-4 w-4" fill="currentColor"></i></div><blockquote class="mt-4 flex-1 text-sm leading-relaxed text-gray-600">“I had avoided dentists for years. Dr. Arya Wagh changed that completely — painless, patient, and genuinely kind.”</blockquote><figcaption class="mt-5 flex items-center gap-3 border-t border-teal-50 pt-4"><span class="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 font-semibold text-primary">M</span><div><p class="text-sm font-semibold text-charcoal">Meera K.</p><p class="text-xs text-gray-500">Dental Care</p></div></figcaption></figure></div>
+          <div data-reveal class="h-full" style="transition-delay:200ms"><figure class="flex h-full flex-col rounded-2xl border border-teal-100/80 bg-white p-6 shadow-card"><div class="flex gap-1 text-amber-400" aria-label="5 star rating"><i data-lucide="star" class="h-4 w-4" fill="currentColor"></i><i data-lucide="star" class="h-4 w-4" fill="currentColor"></i><i data-lucide="star" class="h-4 w-4" fill="currentColor"></i><i data-lucide="star" class="h-4 w-4" fill="currentColor"></i><i data-lucide="star" class="h-4 w-4" fill="currentColor"></i></div><blockquote class="mt-4 flex-1 text-sm leading-relaxed text-gray-600">“After my knee surgery, Dr. Shivansh’s personalized plan had me walking comfortably again within weeks. Truly life-changing.”</blockquote><figcaption class="mt-5 flex items-center gap-3 border-t border-teal-50 pt-4"><span class="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 font-semibold text-primary">A</span><div><p class="text-sm font-semibold text-charcoal">Arjun T.</p><p class="text-xs text-gray-500">Physiotherapy</p></div></figcaption></figure></div>
+        </div>
+      </div>
+
+      <!-- ════════════ REVIEWS — LIVE FROM SUPABASE ════════════ -->
+      <div class="bg-white py-20 sm:py-24">
+        <div class="container-x">
+          <div data-reveal class="mb-12 text-center">
+            <span class="eyebrow">Verified reviews</span>
+            <h2 class="font-display text-3xl font-bold sm:text-4xl">What Our Patients Say</h2>
+            <p class="mx-auto mt-3 max-w-xl text-gray-600">Real experiences from real patients.</p>
+          </div>
+
+          <div id="reviews-error" class="mx-auto mb-8 hidden max-w-xl rounded-xl border border-red-100 bg-red-50 p-4 text-center text-sm text-red-700"></div>
+
+          <!-- Skeletons -->
+          <div id="reviews-skeleton" class="hidden grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <div class="rounded-2xl border border-teal-100/80 bg-white p-6 shadow-card"><div class="flex items-center gap-3"><div class="h-11 w-11 animate-pulse rounded-full bg-mint/30"></div><div class="space-y-2"><div class="h-3.5 w-28 animate-pulse rounded bg-gray-200"></div><div class="h-3 w-16 animate-pulse rounded bg-gray-100"></div></div></div><div class="mt-4 h-3.5 w-24 animate-pulse rounded bg-gray-200"></div><div class="mt-4 space-y-2"><div class="h-3 w-full animate-pulse rounded bg-gray-100"></div><div class="h-3 w-11/12 animate-pulse rounded bg-gray-100"></div><div class="h-3 w-3/4 animate-pulse rounded bg-gray-100"></div></div></div>
+            <div class="rounded-2xl border border-teal-100/80 bg-white p-6 shadow-card"><div class="flex items-center gap-3"><div class="h-11 w-11 animate-pulse rounded-full bg-mint/30"></div><div class="space-y-2"><div class="h-3.5 w-28 animate-pulse rounded bg-gray-200"></div><div class="h-3 w-16 animate-pulse rounded bg-gray-100"></div></div></div><div class="mt-4 h-3.5 w-24 animate-pulse rounded bg-gray-200"></div><div class="mt-4 space-y-2"><div class="h-3 w-full animate-pulse rounded bg-gray-100"></div><div class="h-3 w-11/12 animate-pulse rounded bg-gray-100"></div><div class="h-3 w-3/4 animate-pulse rounded bg-gray-100"></div></div></div>
+            <div class="rounded-2xl border border-teal-100/80 bg-white p-6 shadow-card"><div class="flex items-center gap-3"><div class="h-11 w-11 animate-pulse rounded-full bg-mint/30"></div><div class="space-y-2"><div class="h-3.5 w-28 animate-pulse rounded bg-gray-200"></div><div class="h-3 w-16 animate-pulse rounded bg-gray-100"></div></div></div><div class="mt-4 h-3.5 w-24 animate-pulse rounded bg-gray-200"></div><div class="mt-4 space-y-2"><div class="h-3 w-full animate-pulse rounded bg-gray-100"></div><div class="h-3 w-11/12 animate-pulse rounded bg-gray-100"></div><div class="h-3 w-3/4 animate-pulse rounded bg-gray-100"></div></div></div>
+          </div>
+
+          <!-- Empty state -->
+          <div id="reviews-empty" class="mx-auto hidden max-w-md rounded-2xl border border-dashed border-teal-200 bg-cream p-10 text-center">
+            <i data-lucide="quote" class="mx-auto h-8 w-8 text-mint"></i>
+            <p class="mt-4 text-gray-600">No reviews yet — be the first to share your experience.</p>
+          </div>
+
+          <!-- Cards -->
+          <div id="reviews-grid" class="hidden grid gap-6 md:grid-cols-2 lg:grid-cols-3"></div>
+
+          <div class="mt-12 text-center">
+            <button id="open-review-modal" type="button" class="btn-coral">
+              <i data-lucide="message-square-plus" class="h-4 w-4"></i>Leave a Review
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA banner -->
+      <div class="container-x pb-24">
+        <div data-reveal>
+          <div class="relative overflow-hidden rounded-3xl bg-primary px-6 py-14 text-center text-white shadow-soft sm:px-12">
+            <div class="absolute -left-16 -top-16 h-56 w-56 rounded-full bg-mint/20 blur-3xl"></div>
+            <div class="absolute -bottom-16 -right-16 h-56 w-56 rounded-full bg-coral/25 blur-3xl"></div>
+            <div class="relative">
+              <h2 class="font-display text-3xl font-bold sm:text-4xl">Ready to prioritize your health?</h2>
+              <p class="mx-auto mt-3 max-w-lg text-teal-50/90">Booking takes under two minutes. Or call us at <a href="tel:+919876543210" class="font-semibold text-mint hover:underline">+91 98765 43210</a></p>
+              <a href="#/book" class="btn-coral mt-8"><i data-lucide="heart-pulse" class="h-4 w-4"></i>Book Appointment</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════ OUR DOCTORS ════════════ -->
+    <section id="page-doctors" class="page hidden">
+      <div class="relative isolate overflow-hidden bg-gradient-to-br from-primary via-teal-700 to-primary-dark py-16 text-center text-white sm:py-20">
+        <div class="absolute -left-24 -top-24 h-72 w-72 rounded-full bg-mint/20 blur-3xl"></div>
+        <div class="absolute -bottom-24 -right-16 h-72 w-72 rounded-full bg-coral/20 blur-3xl"></div>
+        <div class="container-x relative">
+          <span class="mb-4 inline-block rounded-full border border-mint/40 bg-white/10 px-4 py-1 text-xs font-semibold uppercase tracking-widest text-mint">Our team</span>
+          <h1 class="font-display text-4xl font-bold sm:text-5xl">Meet Our Doctors</h1>
+          <p class="mx-auto mt-4 max-w-2xl text-teal-50/90">Experienced, board-certified specialists who treat every patient like family.</p>
+        </div>
+      </div>
+
+      <div class="container-x py-16 sm:py-20">
+        <div id="all-doctors" class="grid gap-8 md:grid-cols-2"></div>
+        <div data-reveal class="mt-16 text-center">
+          <p class="text-gray-600">Not sure which specialist to see? Call us at <a href="tel:+919876543210" class="font-semibold text-primary hover:underline">+91 98765 43210</a> and our front desk will guide you.</p>
+          <a href="#/book" class="btn-coral mt-6">Book an Appointment<i data-lucide="arrow-right" class="h-4 w-4"></i></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════ BOOK APPOINTMENT ════════════ -->
+    <section id="page-book" class="page hidden">
+      <div class="container-x py-14 sm:py-20">
+        <div class="mx-auto mb-12 max-w-2xl text-center">
+          <span class="eyebrow">Appointments</span>
+          <h1 class="font-display text-3xl font-bold sm:text-4xl">Book Your Visit</h1>
+          <p class="mt-3 text-gray-600">Choose your doctor, pick a slot, and we’ll take care of the rest.</p>
+        </div>
+
+        <div class="grid gap-10 lg:grid-cols-5">
+          <div class="lg:col-span-2">
+            <h2 class="font-display text-xl font-bold">How it works</h2>
+            <ol class="mt-6 space-y-6">
+              <li class="flex gap-4"><span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-mint/20 text-primary"><i data-lucide="clipboard-check" class="h-5 w-5"></i></span><div><p class="text-sm font-semibold">1. Fill in your details</p><p class="mt-1 text-sm leading-relaxed text-gray-600">Tell us who you are, who you’d like to see, and why.</p></div></li>
+              <li class="flex gap-4"><span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-mint/20 text-primary"><i data-lucide="phone-call" class="h-5 w-5"></i></span><div><p class="text-sm font-semibold">2. We confirm your slot</p><p class="mt-1 text-sm leading-relaxed text-gray-600">Our front desk calls or emails to confirm within a few hours.</p></div></li>
+              <li class="flex gap-4"><span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-mint/20 text-primary"><i data-lucide="stethoscope" class="h-5 w-5"></i></span><div><p class="text-sm font-semibold">3. Meet your doctor</p><p class="mt-1 text-sm leading-relaxed text-gray-600">Arrive 10 minutes early — we handle everything else.</p></div></li>
+            </ol>
+            <div class="mt-8 rounded-2xl border border-teal-100 bg-white p-5 shadow-card">
+              <p class="flex items-center gap-2 text-sm font-semibold"><i data-lucide="phone-call" class="h-4 w-4 text-primary"></i>Prefer to book by phone?</p>
+              <p class="mt-2 text-sm text-gray-600">Call <a href="tel:+919876543210" class="font-semibold text-primary hover:underline">+91 98765 43210</a> — Mon–Sat, 9:00 AM to 6:00 PM.</p>
+            </div>
+          </div>
+
+          <div class="lg:col-span-3">
+            <div id="form-wrap" class="rounded-2xl border border-teal-100 bg-white p-6 shadow-soft sm:p-8">
+              <form id="booking-form" novalidate class="space-y-5">
+                <div class="grid gap-5 sm:grid-cols-2">
+                  <label class="block"><span class="label">Full Name <span class="text-coral">*</span></span>
+                    <input name="full_name" type="text" autocomplete="name" placeholder="e.g. Aarav Patel" class="input" />
+                    <p class="error-text hidden" id="err-full_name"></p>
+                  </label>
+                  <label class="block"><span class="label">Date of Birth <span class="text-coral">*</span></span>
+                    <input name="dob" id="f-dob" type="text" inputmode="numeric" autocomplete="bday" maxlength="10" placeholder="DD/MM/YYYY — type it in" class="input" />
+                    <p class="error-text hidden" id="err-dob"></p>
+                  </label>
+                  <label class="block"><span class="label">Gender <span class="text-coral">*</span></span>
+                    <select name="gender" class="input">
+                      <option value="">Select gender</option>
+                      <option>Male</option><option>Female</option><option>Other</option>
+                    </select>
+                    <p class="error-text hidden" id="err-gender"></p>
+                  </label>
+                  <label class="block"><span class="label">Phone Number <span class="text-coral">*</span></span>
+                    <input name="phone" type="tel" inputmode="numeric" autocomplete="tel" maxlength="10" placeholder="10-digit mobile number" class="input" />
+                    <p class="error-text hidden" id="err-phone"></p>
+                  </label>
+                  <label class="block"><span class="label">Email <span class="text-coral">*</span></span>
+                    <input name="email" type="email" autocomplete="email" placeholder="you@example.com" class="input" />
+                    <p class="error-text hidden" id="err-email"></p>
+                  </label>
+                  <label class="block"><span class="label">Doctor <span class="text-coral">*</span></span>
+                    <select name="doctor" id="doctor-select" class="input">
+                      <option value="">Choose a doctor</option>
+                    </select>
+                    <p class="error-text hidden" id="err-doctor"></p>
+                  </label>
+                  <label class="block"><span class="label">Preferred Date <span class="text-coral">*</span></span>
+                    <input name="appointment_date" id="f-date" type="date" class="input" />
+                    <p class="error-text hidden" id="err-appointment_date"></p>
+                  </label>
+                  <label class="block"><span class="label">Preferred Time Slot <span class="text-coral">*</span></span>
+                    <select name="time_slot" class="input">
+                      <option value="">Select a slot</option>
+                    </select>
+                    <p class="error-text hidden" id="err-time_slot"></p>
+                  </label>
+                </div>
+
+                <label class="block"><span class="label">Reason for Visit / Symptoms <span class="text-coral">*</span></span>
+                  <textarea name="reason" rows="4" placeholder="Briefly describe your symptoms or reason for the visit…" class="input resize-none"></textarea>
+                  <p class="error-text hidden" id="err-reason"></p>
+                </label>
+
+                <div>
+                  <label class="flex items-start gap-3">
+                    <input name="consent" type="checkbox" class="mt-0.5 h-4 w-4 accent-primary" />
+                    <span class="text-sm text-gray-600">I agree to be contacted regarding my appointment.</span>
+                  </label>
+                  <p class="error-text hidden" id="err-consent"></p>
+                </div>
+
+                <button id="submit-btn" type="submit" class="btn-coral w-full disabled:cursor-not-allowed disabled:opacity-70">
+                  <span id="btn-spinner" class="hidden"><i data-lucide="loader-2" class="h-4 w-4 animate-spin"></i></span>
+                  <i data-lucide="calendar-days" id="btn-icon" class="h-4 w-4"></i>
+                  <span id="btn-label">Confirm Booking</span>
+                </button>
+
+                <p class="text-center text-xs text-gray-400">Your information is confidential and used only to manage your appointment.</p>
+              </form>
+            </div>
+
+            <!-- SUCCESS -->
+            <div id="booking-success" class="hidden rounded-2xl border border-teal-100 bg-white p-8 text-center shadow-soft sm:p-10">
+              <span class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-mint/20">
+                <i data-lucide="check-circle-2" class="h-8 w-8 text-primary"></i>
+              </span>
+              <h2 class="mt-5 font-display text-2xl font-bold sm:text-3xl">Appointment Booked!</h2>
+              <p class="mt-2 text-gray-600">We’ll confirm shortly via phone/email.</p>
+              <div class="mt-6 rounded-xl border border-dashed border-teal-300 bg-mint/10 p-4">
+                <p class="text-xs font-semibold uppercase tracking-widest text-gray-500">Your reference</p>
+                <p id="ref-id" class="mt-1 font-mono text-xl font-bold text-primary-dark"></p>
+              </div>
+              <div class="mt-5 space-y-1 rounded-xl bg-teal-50/70 p-4 text-sm text-gray-700">
+                <p><span class="font-semibold">Doctor:</span> <span id="sum-doctor"></span></p>
+                <p><span class="font-semibold">Age:</span> <span id="sum-age"></span></p>
+                <p><span class="font-semibold">Date:</span> <span id="sum-date"></span></p>
+                <p><span class="font-semibold">Slot:</span> <span id="sum-slot"></span></p>
+              </div>
+              <button id="book-again" type="button" class="btn-outline mt-7">Book another appointment</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════ ABOUT US ════════════ -->
+    <section id="page-about" class="page hidden">
+      <div class="relative isolate overflow-hidden bg-gradient-to-br from-primary via-teal-700 to-primary-dark py-16 text-center text-white sm:py-20">
+        <div class="absolute -left-24 -top-24 h-72 w-72 rounded-full bg-mint/20 blur-3xl"></div>
+        <div class="absolute -bottom-24 -right-16 h-72 w-72 rounded-full bg-coral/20 blur-3xl"></div>
+        <div class="container-x relative">
+          <span class="mb-4 inline-block rounded-full border border-mint/40 bg-white/10 px-4 py-1 text-xs font-semibold uppercase tracking-widest text-mint">About us</span>
+          <h1 class="font-display text-4xl font-bold sm:text-5xl">About MedPlus Hospital</h1>
+          <p class="mx-auto mt-4 max-w-2xl text-teal-50/90">World-class healthcare that still feels human — that has been our promise since day one.</p>
+        </div>
+      </div>
+
+      <div class="container-x grid items-center gap-12 py-16 sm:py-20 lg:grid-cols-2">
+        <div data-reveal>
+          <span class="eyebrow">Our story</span>
+          <h2 class="font-display text-3xl font-bold">Built on care, growing with our community</h2>
+          <p class="mt-5 leading-relaxed text-gray-600">MedPlus Hospital began in 2010 with a simple belief: world-class healthcare should feel human. What started as a small neighbourhood clinic has grown into a modern multi-speciality hospital serving thousands of families — yet we’ve kept the warmth of those early days.</p>
+          <p class="mt-4 leading-relaxed text-gray-600">Every doctor, nurse, and staff member is chosen not only for their skill, but for their kindness. Because great medicine is about more than machines — it’s about people.</p>
+        </div>
+        <div data-reveal style="transition-delay:150ms">
+          <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary to-teal-700 p-10 text-white shadow-soft">
+            <i data-lucide="quote" class="h-11 w-11 text-mint/70"></i>
+            <p class="mt-5 font-display text-2xl italic leading-snug sm:text-3xl">“Where every patient is family.”</p>
+            <p class="mt-4 text-sm uppercase tracking-widest text-mint/80">— The MedPlus Promise</p>
+            <div class="mt-8 grid grid-cols-2 gap-4">
+              <div class="rounded-2xl bg-white/10 p-4 backdrop-blur"><p class="font-display text-2xl font-bold text-mint">15+</p><p class="mt-1 text-xs text-teal-50/80">Years of care</p></div>
+              <div class="rounded-2xl bg-white/10 p-4 backdrop-blur"><p class="font-display text-2xl font-bold text-mint">25k+</p><p class="mt-1 text-xs text-teal-50/80">Patients treated</p></div>
+              <div class="rounded-2xl bg-white/10 p-4 backdrop-blur"><p class="font-display text-2xl font-bold text-mint">5</p><p class="mt-1 text-xs text-teal-50/80">Specialities</p></div>
+              <div class="rounded-2xl bg-white/10 p-4 backdrop-blur"><p class="font-display text-2xl font-bold text-mint">98%</p><p class="mt-1 text-xs text-teal-50/80">Patient satisfaction</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container-x pb-4">
+        <div data-reveal class="mb-12 text-center">
+          <span class="eyebrow">Take a look around</span>
+          <h2 class="font-display text-3xl font-bold sm:text-4xl">Our Facilities</h2>
+          <p class="mx-auto mt-3 max-w-xl text-gray-600">These placeholders are ready — drop real photos into an <code class="rounded bg-teal-50 px-1 text-primary-dark">images/</code> folder named as shown and they’ll appear automatically.</p>
+        </div>
+        <div id="facilities" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4"></div>
+      </div>
+
+      <div class="bg-white mt-12 py-16 sm:py-20">
+        <div class="container-x">
+          <div data-reveal class="mb-12 text-center">
+            <span class="eyebrow">What drives us</span>
+            <h2 class="font-display text-3xl font-bold sm:text-4xl">Our Values</h2>
+            <p class="mx-auto mt-3 max-w-xl text-gray-600">Four principles guide every decision we make, from the front desk to the operating theatre.</p>
+          </div>
+          <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            <div data-reveal class="h-full"><div class="h-full rounded-2xl border border-teal-100/80 bg-cream p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-card"><span class="flex h-12 w-12 items-center justify-center rounded-xl bg-mint/20 text-primary"><i data-lucide="heart-handshake" class="h-6 w-6"></i></span><h3 class="mt-5 font-display text-lg font-bold">Compassion</h3><p class="mt-2 text-sm leading-relaxed text-gray-600">We listen first and heal always. Every patient is treated like family.</p></div></div>
+            <div data-reveal class="h-full" style="transition-delay:80ms"><div class="h-full rounded-2xl border border-teal-100/80 bg-cream p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-card"><span class="flex h-12 w-12 items-center justify-center rounded-xl bg-mint/20 text-primary"><i data-lucide="award" class="h-6 w-6"></i></span><h3 class="mt-5 font-display text-lg font-bold">Excellence</h3><p class="mt-2 text-sm leading-relaxed text-gray-600">From diagnosis to recovery, we hold ourselves to the highest clinical standards.</p></div></div>
+            <div data-reveal class="h-full" style="transition-delay:160ms"><div class="h-full rounded-2xl border border-teal-100/80 bg-cream p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-card"><span class="flex h-12 w-12 items-center justify-center rounded-xl bg-mint/20 text-primary"><i data-lucide="shield-check" class="h-6 w-6"></i></span><h3 class="mt-5 font-display text-lg font-bold">Integrity</h3><p class="mt-2 text-sm leading-relaxed text-gray-600">Honest advice, transparent pricing, and care that is always in your best interest.</p></div></div>
+            <div data-reveal class="h-full" style="transition-delay:240ms"><div class="h-full rounded-2xl border border-teal-100/80 bg-cream p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-card"><span class="flex h-12 w-12 items-center justify-center rounded-xl bg-mint/20 text-primary"><i data-lucide="microscope" class="h-6 w-6"></i></span><h3 class="mt-5 font-display text-lg font-bold">Innovation</h3><p class="mt-2 text-sm leading-relaxed text-gray-600">Modern equipment and evidence-based medicine across every department.</p></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container-x py-16 sm:py-20">
+        <div data-reveal class="mb-12 text-center">
+          <span class="eyebrow">Words we live by</span>
+          <h2 class="font-display text-3xl font-bold sm:text-4xl">The MedPlus Philosophy</h2>
+        </div>
+        <div id="philosophy" class="grid gap-6 sm:grid-cols-2"></div>
+      </div>
+
+      <div class="container-x pb-20 text-center">
+        <div data-reveal>
+          <h2 class="font-display text-2xl font-bold sm:text-3xl">Experience care that puts you first.</h2>
+          <a href="#/book" class="btn-coral mt-6">Book an Appointment<i data-lucide="arrow-right" class="h-4 w-4"></i></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════ CONTACT ════════════ -->
+    <section id="page-contact" class="page hidden">
+      <div class="relative isolate overflow-hidden bg-gradient-to-br from-primary via-teal-700 to-primary-dark py-16 text-center text-white sm:py-20">
+        <div class="absolute -left-24 -top-24 h-72 w-72 rounded-full bg-mint/20 blur-3xl"></div>
+        <div class="absolute -bottom-24 -right-16 h-72 w-72 rounded-full bg-coral/20 blur-3xl"></div>
+        <div class="container-x relative">
+          <span class="mb-4 inline-block rounded-full border border-mint/40 bg-white/10 px-4 py-1 text-xs font-semibold uppercase tracking-widest text-mint">Get in touch</span>
+          <h1 class="font-display text-4xl font-bold sm:text-5xl">Contact Us</h1>
+          <p class="mx-auto mt-4 max-w-2xl text-teal-50/90">Questions, reports, or just directions? We’re always happy to help.</p>
+        </div>
+      </div>
+
+      <div class="container-x py-16 sm:py-20">
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div data-reveal class="h-full"><div class="h-full rounded-2xl border border-teal-100/80 bg-white p-6 shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-soft"><span class="flex h-11 w-11 items-center justify-center rounded-xl bg-mint/20 text-primary"><i data-lucide="map-pin" class="h-5 w-5"></i></span><h3 class="mt-4 font-display text-lg font-bold">Visit Us</h3><p class="mt-1 text-sm text-gray-600">24 Wellness Avenue, Andheri West</p><p class="mt-1 text-sm text-gray-600">Mumbai, Maharashtra 400058</p></div></div>
+          <div data-reveal class="h-full" style="transition-delay:80ms"><div class="h-full rounded-2xl border border-teal-100/80 bg-white p-6 shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-soft"><span class="flex h-11 w-11 items-center justify-center rounded-xl bg-mint/20 text-primary"><i data-lucide="phone" class="h-5 w-5"></i></span><h3 class="mt-4 font-display text-lg font-bold">Call Us</h3><p class="mt-1 text-sm text-gray-600">+91 98765 43210</p><p class="mt-1 text-sm text-gray-600">Emergency: +91 98765 43211</p></div></div>
+          <div data-reveal class="h-full" style="transition-delay:160ms"><div class="h-full rounded-2xl border border-teal-100/80 bg-white p-6 shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-soft"><span class="flex h-11 w-11 items-center justify-center rounded-xl bg-mint/20 text-primary"><i data-lucide="mail" class="h-5 w-5"></i></span><h3 class="mt-4 font-display text-lg font-bold">Email Us</h3><p class="mt-1 text-sm text-gray-600">care@medplushospital.com</p><p class="mt-1 text-sm text-gray-600">reports@medplushospital.com</p></div></div>
+          <div data-reveal class="h-full" style="transition-delay:240ms"><div class="h-full rounded-2xl border border-teal-100/80 bg-white p-6 shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-soft"><span class="flex h-11 w-11 items-center justify-center rounded-xl bg-mint/20 text-primary"><i data-lucide="clock" class="h-5 w-5"></i></span><h3 class="mt-4 font-display text-lg font-bold">Opening Hours</h3><p class="mt-1 text-sm text-gray-600">Mon–Sat: 9:00 AM – 6:00 PM</p><p class="mt-1 text-sm text-gray-600">Sunday: Emergency only</p></div></div>
+        </div>
+
+        <div data-reveal class="mt-12">
+          <div class="relative h-96 overflow-hidden rounded-3xl border border-teal-100 bg-teal-50/50 shadow-card">
+            <div class="absolute inset-0" style="background-image:linear-gradient(rgba(15,118,110,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(15,118,110,.07) 1px,transparent 1px);background-size:36px 36px;"></div>
+            <div class="absolute left-0 right-0 top-1/2 h-3 -rotate-2 rounded bg-teal-100"></div>
+            <div class="absolute bottom-0 left-2/3 top-0 w-3 rotate-3 rounded bg-teal-100"></div>
+            <div class="absolute left-1/4 top-8 h-2 w-2/3 -rotate-6 rounded bg-teal-100/70"></div>
+
+            <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+              <span class="relative flex h-6 w-6 items-center justify-center">
+                <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-coral opacity-40"></span>
+                <i data-lucide="map-pin" class="relative h-10 w-10 text-coral" fill="#F97316" stroke="#ffffff"></i>
+              </span>
+            </div>
+
+            <div class="absolute bottom-5 left-5 rounded-2xl bg-white/95 p-5 shadow-soft backdrop-blur">
+              <p class="font-display font-bold">MedPlus Hospital</p>
+              <p class="mt-1 text-sm text-gray-600">24 Wellness Avenue, Andheri West,<br />Mumbai, Maharashtra 400058</p>
+              <a href="https://maps.google.com/?q=MedPlus+Hospital+Mumbai" target="_blank" rel="noopener noreferrer" class="btn-teal mt-4 !px-4 !py-2 !text-xs"><i data-lucide="navigation" class="h-3.5 w-3.5"></i>Get Directions</a>
+            </div>
+
+            <span class="absolute right-5 top-5 rounded-full bg-white/90 px-3 py-1 text-xs font-medium text-gray-500 shadow-card backdrop-blur">Map placeholder — add a real embed later</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════ 404 ════════════ -->
+    <section id="page-404" class="page hidden">
+      <div class="container-x flex flex-col items-center py-32 text-center">
+        <h1 class="font-display text-6xl font-bold text-primary">404</h1>
+        <p class="mt-4 text-gray-600">This page seems to be off-duty.</p>
+        <a href="#/" class="btn-teal mt-8">Back to Home</a>
+      </div>
+    </section>
+
+    <!-- ════════════ ADMIN: session-check splash ════════════ -->
+    <section id="page-admin-check" class="page hidden">
+      <div class="container-x flex min-h-[60vh] items-center justify-center">
+        <div class="flex flex-col items-center gap-3">
+          <i data-lucide="loader-2" class="h-8 w-8 animate-spin text-primary"></i>
+          <p class="text-sm text-gray-500">Checking your session…</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════ ADMIN LOGIN ════════════ -->
+    <section id="page-admin-login" class="page hidden">
+      <div class="relative flex min-h-[80vh] items-center justify-center overflow-hidden bg-gradient-to-br from-primary via-teal-700 to-primary-dark px-4 py-16">
+        <div class="absolute -left-24 -top-24 h-72 w-72 rounded-full bg-mint/20 blur-3xl"></div>
+        <div class="absolute -bottom-24 -right-16 h-72 w-72 rounded-full bg-coral/20 blur-3xl"></div>
+
+        <div class="relative w-full max-w-md rounded-2xl border border-teal-100 bg-white p-8 shadow-soft">
+          <div class="text-center">
+            <span class="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-white shadow-soft">
+              <i data-lucide="heart-pulse" class="h-6 w-6"></i>
+            </span>
+            <h1 class="mt-4 font-display text-2xl font-bold text-charcoal">MedPlus</h1>
+            <p class="text-xs font-semibold uppercase tracking-[0.25em] text-primary">Admin Panel</p>
+          </div>
+
+          <form id="admin-login-form" novalidate class="mt-8 space-y-5">
+            <label class="block">
+              <span class="label">Email</span>
+              <input id="admin-email" type="email" autocomplete="email" placeholder="admin@medplushospital.com" class="input" />
+            </label>
+            <label class="block">
+              <span class="label">Password</span>
+              <input id="admin-password" type="password" autocomplete="current-password" placeholder="••••••••" class="input" />
+            </label>
+
+            <div id="admin-login-error" class="hidden rounded-xl border border-red-100 bg-red-50 p-3 text-sm font-medium text-red-700" role="alert"></div>
+
+            <button id="admin-login-btn" type="submit" class="btn-coral w-full disabled:cursor-not-allowed disabled:opacity-70">
+              <span id="admin-login-spinner" class="hidden"><i data-lucide="loader-2" class="h-4 w-4 animate-spin"></i></span>
+              <span id="admin-login-btn-label">Sign In</span>
+            </button>
+          </form>
+
+          <p class="mt-6 text-center">
+            <a href="#/" class="text-sm text-gray-500 transition hover:text-primary">← Back to website</a>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════ ADMIN DASHBOARD ════════════ -->
+    <section id="page-admin" class="page hidden">
+      <div class="container-x py-10 sm:py-14">
+        <!-- Header -->
+        <div class="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <span class="eyebrow">Staff only</span>
+            <h1 class="font-display text-3xl font-bold text-charcoal sm:text-4xl">Admin Panel</h1>
+            <p class="mt-1 text-sm text-gray-600">Signed in as <span id="admin-email-label" class="font-medium text-primary-dark">…</span></p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button id="admin-refresh" type="button" class="inline-flex items-center gap-2 rounded-full border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 transition hover:border-primary hover:text-primary">
+              <i data-lucide="refresh-cw" class="h-4 w-4"></i>Refresh
+            </button>
+            <button id="admin-logout" type="button" class="inline-flex items-center gap-2 rounded-full border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 transition hover:border-red-300 hover:bg-red-50 hover:text-red-700">
+              <i data-lucide="log-out" class="h-4 w-4"></i>Logout
+            </button>
+          </div>
+        </div>
+
+        <!-- APPOINTMENTS -->
+        <div class="mt-8 overflow-hidden rounded-2xl border border-teal-100/80 bg-white shadow-card">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-teal-50 px-6 py-4">
+            <h2 class="flex items-center gap-2 font-display text-lg font-bold text-charcoal"><i data-lucide="calendar-days" class="h-5 w-5 text-primary"></i>Appointments</h2>
+            <span id="admin-appts-count" class="text-xs text-gray-500"></span>
+          </div>
+
+          <div id="admin-appts-skeleton" class="hidden space-y-2 p-4">
+            <div class="h-3 w-full animate-pulse rounded bg-gray-100"></div>
+            <div class="h-3 w-11/12 animate-pulse rounded bg-gray-100"></div>
+            <div class="h-3 w-full animate-pulse rounded bg-gray-100"></div>
+            <div class="h-3 w-3/4 animate-pulse rounded bg-gray-100"></div>
+          </div>
+
+          <p id="admin-appts-empty" class="hidden px-6 py-10 text-center text-sm text-gray-500">No appointments yet.</p>
+
+          <div id="admin-appts-table" class="hidden overflow-x-auto">
+            <table class="w-full min-w-[820px] text-left text-sm">
+              <thead>
+                <tr class="border-b border-teal-50 bg-teal-50/40 text-xs uppercase tracking-wide text-gray-500">
+                  <th class="px-4 py-3 font-semibold">Ref</th>
+                  <th class="px-4 py-3 font-semibold">Patient</th>
+                  <th class="px-4 py-3 font-semibold">Phone</th>
+                  <th class="px-4 py-3 font-semibold">Doctor</th>
+                  <th class="px-4 py-3 font-semibold">Date</th>
+                  <th class="px-4 py-3 font-semibold">Slot</th>
+                  <th class="px-4 py-3 font-semibold">Status</th>
+                  <th class="px-4 py-3 font-semibold">Booked</th>
+                  <th class="px-4 py-3 font-semibold">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="admin-appts-body"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- REVIEWS -->
+        <div class="mt-8 overflow-hidden rounded-2xl border border-teal-100/80 bg-white shadow-card">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-teal-50 px-6 py-4">
+            <h2 class="flex items-center gap-2 font-display text-lg font-bold text-charcoal"><i data-lucide="message-square" class="h-5 w-5 text-primary"></i>Reviews</h2>
+            <span id="admin-reviews-count" class="text-xs text-gray-500"></span>
+          </div>
+
+          <div id="admin-reviews-skeleton" class="hidden space-y-2 p-4">
+            <div class="h-3 w-full animate-pulse rounded bg-gray-100"></div>
+            <div class="h-3 w-11/12 animate-pulse rounded bg-gray-100"></div>
+            <div class="h-3 w-full animate-pulse rounded bg-gray-100"></div>
+            <div class="h-3 w-2/3 animate-pulse rounded bg-gray-100"></div>
+          </div>
+
+          <p id="admin-reviews-empty" class="hidden px-6 py-10 text-center text-sm text-gray-500">No reviews yet.</p>
+
+          <div id="admin-reviews-list" class="hidden grid gap-4 p-4 md:grid-cols-2"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ════════════ FOOTER ════════════ -->
+  <footer class="mt-auto border-t border-teal-100 bg-white">
+    <div class="container-x grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
+      <div>
+        <a href="#/" class="flex items-center gap-2.5">
+          <span id="footer-brand-icon" class="relative flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-primary text-white">
+            <i data-lucide="heart-pulse" class="h-5 w-5"></i>
+          </span>
+          <span class="leading-tight">
+            <span class="block font-display text-lg font-bold text-charcoal">MedPlus</span>
+            <span class="block text-[10px] font-semibold uppercase tracking-[0.25em] text-primary">Hospital</span>
+          </span>
+        </a>
+        <p class="mt-4 text-sm leading-relaxed text-gray-600">Compassionate care, expert specialists, and modern facilities — all under one roof.</p>
+        <p class="mt-4 font-display text-sm italic text-primary">“Healing with heart, treating with science.”</p>
+      </div>
+      <div>
+        <h4 class="text-sm font-semibold uppercase tracking-widest text-charcoal">Quick Links</h4>
+        <ul class="mt-4 space-y-2.5 text-sm text-gray-600">
+          <li><a href="#/" class="transition hover:text-primary">Home</a></li>
+          <li><a href="#/doctors" class="transition hover:text-primary">Our Doctors</a></li>
+          <li><a href="#/book" class="transition hover:text-primary">Book Appointment</a></li>
+          <li><a href="#/about" class="transition hover:text-primary">About Us</a></li>
+          <li><a href="#/contact" class="transition hover:text-primary">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-sm font-semibold uppercase tracking-widest text-charcoal">Specialities</h4>
+        <ul id="footer-specialties" class="mt-4 space-y-2.5 text-sm text-gray-600"></ul>
+      </div>
+      <div>
+        <h4 class="text-sm font-semibold uppercase tracking-widest text-charcoal">Contact</h4>
+        <ul class="mt-4 space-y-3 text-sm text-gray-600">
+          <li class="flex items-start gap-2.5"><i data-lucide="map-pin" class="mt-0.5 h-4 w-4 shrink-0 text-primary"></i><span>24 Wellness Avenue, Andheri West,<br />Mumbai, Maharashtra 400058</span></li>
+          <li class="flex items-center gap-2.5"><i data-lucide="phone" class="h-4 w-4 shrink-0 text-primary"></i>+91 98765 43210</li>
+          <li class="flex items-center gap-2.5"><i data-lucide="mail" class="h-4 w-4 shrink-0 text-primary"></i>care@medplushospital.com</li>
+          <li class="flex items-start gap-2.5"><i data-lucide="clock" class="mt-0.5 h-4 w-4 shrink-0 text-primary"></i><span>Mon–Sat: 9:00 AM – 6:00 PM<br />Sunday: Emergency only</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-teal-100/70 py-5">
+      <p class="px-4 text-center text-xs text-gray-500">
+        © <span id="year"></span> MedPlus Hospital. All rights reserved. · Trusted hands. Compassionate hearts. Better health.
+        · <a href="#/admin" class="font-medium text-primary transition hover:underline">Admin</a>
+      </p>
+    </div>
+  </footer>
+
+  <!-- Toast host -->
+  <div id="toast-host" class="pointer-events-none fixed bottom-6 right-6 z-[80] flex w-full max-w-sm flex-col gap-2"></div>
+
+  <!-- Review modal -->
+  <div id="review-modal" class="fixed inset-0 z-[70] hidden items-center justify-center bg-charcoal/50 p-4 backdrop-blur-sm" role="dialog" aria-modal="true" aria-label="Leave a review">
+    <div id="review-modal-card" class="relative w-full max-w-lg rounded-2xl border border-teal-100 bg-white p-6 shadow-soft sm:p-8">
+      <button id="review-x" type="button" aria-label="Close" class="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full text-gray-400 transition hover:bg-teal-50 hover:text-charcoal">✕</button>
+
+      <!-- Form view -->
+      <div id="review-form-view">
+        <h3 class="font-display text-2xl font-bold text-charcoal">Share Your Experience</h3>
+        <p class="mt-1 text-sm text-gray-600">Your review helps other patients — and helps us improve.</p>
+
+        <form id="review-form" novalidate class="mt-6 space-y-5">
+          <label class="block">
+            <span class="label">Your Name <span class="text-coral">*</span></span>
+            <input id="rv-name" type="text" maxlength="60" autocomplete="name" placeholder="e.g. Aarav Patel" class="input" />
+            <p class="error-text hidden" id="err-rv-name"></p>
+          </label>
+
+          <div>
+            <span class="label">Your Rating <span class="text-coral">*</span></span>
+            <div id="star-row" class="flex items-center gap-1">
+              <button type="button" data-star="1" class="star-btn rounded p-0.5 transition hover:scale-110" aria-label="1 star"><i data-lucide="star" class="star-icon h-7 w-7 text-gray-300"></i></button>
+              <button type="button" data-star="2" class="star-btn rounded p-0.5 transition hover:scale-110" aria-label="2 stars"><i data-lucide="star" class="star-icon h-7 w-7 text-gray-300"></i></button>
+              <button type="button" data-star="3" class="star-btn rounded p-0.5 transition hover:scale-110" aria-label="3 stars"><i data-lucide="star" class="star-icon h-7 w-7 text-gray-300"></i></button>
+              <button type="button" data-star="4" class="star-btn rounded p-0.5 transition hover:scale-110" aria-label="4 stars"><i data-lucide="star" class="star-icon h-7 w-7 text-gray-300"></i></button>
+              <button type="button" data-star="5" class="star-btn rounded p-0.5 transition hover:scale-110" aria-label="5 stars"><i data-lucide="star" class="star-icon h-7 w-7 text-gray-300"></i></button>
+              <span id="rating-label" class="ml-2 hidden text-sm font-medium text-primary-dark"></span>
+            </div>
+            <p class="error-text hidden" id="err-rv-rating"></p>
+          </div>
+
+          <label class="block">
+            <span class="label">Doctor <span class="text-gray-400">(optional)</span></span>
+            <select id="rv-doctor" class="input">
+              <option value="">Select a doctor (or leave blank)</option>
+              <option>General</option>
+              <option>Dr. Subhash Rajput</option>
+              <option>Dr. Mohana Mishra</option>
+              <option>Dr. Arya Wagh</option>
+              <option>Dr. Shivansh Rajput</option>
+              <option>Dr. Ritika Sahu</option>
+            </select>
+          </label>
+
+          <label class="block">
+            <span class="label flex items-center justify-between">
+              <span>Your Review <span class="text-coral">*</span></span>
+              <span id="rv-counter" class="text-xs font-normal text-gray-400">0/1000</span>
+            </span>
+            <textarea id="rv-message" rows="4" maxlength="1000" placeholder="How was your experience at MedPlus?" class="input resize-none"></textarea>
+            <p class="error-text hidden" id="err-rv-message"></p>
+          </label>
+
+          <div id="rv-server-error" class="hidden items-start gap-2 rounded-xl border border-red-100 bg-red-50 p-3 text-sm text-red-700" role="alert"></div>
+
+          <button id="rv-submit" type="submit" class="btn-coral w-full disabled:cursor-not-allowed disabled:opacity-70">
+            <span id="rv-spinner" class="hidden"><i data-lucide="loader-2" class="h-4 w-4 animate-spin"></i></span>
+            <span id="rv-btn-label">Submit Review</span>
+          </button>
+
+          <p class="text-center text-xs text-gray-400">Reviews are checked by our team before appearing on the site.</p>
+        </form>
+      </div>
+
+      <!-- Thank-you view -->
+      <div id="review-thanks" class="hidden py-6 text-center">
+        <span class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-mint/20">
+          <i data-lucide="check-circle-2" class="h-8 w-8 text-primary"></i>
+        </span>
+        <h3 class="mt-5 font-display text-2xl font-bold text-charcoal">Thank you!</h3>
+        <p class="mt-2 text-gray-600">Your review will appear after moderation.</p>
+        <button id="review-thanks-close" type="button" class="btn-outline mt-7">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirm modal (admin destructive actions) -->
+  <div id="confirm-modal" class="fixed inset-0 z-[90] hidden items-center justify-center bg-charcoal/50 p-4 backdrop-blur-sm" role="dialog" aria-modal="true">
+    <div class="w-full max-w-sm rounded-2xl bg-white p-6 shadow-soft">
+      <div class="flex items-center gap-3">
+        <span class="flex h-10 w-10 items-center justify-center rounded-full bg-red-100 text-red-600">
+          <i data-lucide="alert-triangle" class="h-5 w-5"></i>
+        </span>
+        <h3 id="confirm-title" class="font-display text-lg font-bold text-charcoal"></h3>
+      </div>
+      <p id="confirm-message" class="mt-3 text-sm leading-relaxed text-gray-600"></p>
+      <div class="mt-6 flex justify-end gap-2">
+        <button id="confirm-cancel" type="button" class="rounded-full border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50">Cancel</button>
+        <button id="confirm-ok" type="button" class="rounded-full bg-red-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-red-700">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Libraries — FIX: pinned to stable versions (no more @latest breaking changes) -->
+  <script src="https://unpkg.com/lucide@0.294.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4"></script>
+
+  <script>
+    /* ════════════════════════════════════════════════════════
+       CONFIG — your Supabase project is ALREADY connected.
+       Nothing to edit here. Booking & reviews save for real.
+       ════════════════════════════════════════════════════════ */
+    const SUPABASE_URL = 'https://zgyapbmoodmqjfojtyxp.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_eUuTezyJFWjKWSI82iDHSA_GLb8ywJP';
+    const LOGO_PATH = ''; // e.g. 'images/logo.png' once you add one
+
+    const sb = (window.supabase && SUPABASE_URL && SUPABASE_ANON_KEY)
+      ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+      : null;
+
+    /* ── Data ─────────────────────────────────────────────── */
+    const doctors = [
+      {
+        id: 'dr-subhash-rajput',
+        name: 'Dr. Subhash Rajput',
+        specialty: 'General Physician',
+        field: 'General Medicine & Family Care',
+        fieldBlurb: 'Everyday illnesses, fevers and infections, diabetes, blood pressure and complete family health check-ups.',
+        qualifications: 'MBBS, MD (General Medicine)',
+        experience: '18+ years',
+        gradient: 'from-amber-400 to-mint',
+        focus: ['Fever & Infections', 'Diabetes Care', 'Hypertension', 'Health Check-ups'],
+        photo: 'images/dr-subhash-rajput.jpg',
+        bio: 'Dr. Subhash Rajput is a senior general physician with 18+ years of experience in primary and preventive healthcare. He specializes in the diagnosis and management of everyday illnesses — fevers, infections, diabetes, hypertension, and thyroid disorders — and is often the first doctor families turn to for trusted advice. With a patient-first approach and clear, honest communication, he ensures every visitor leaves with a proper diagnosis, a simple treatment plan, and complete peace of mind.',
+      },
+      {
+        id: 'dr-mohana-mishra',
+        name: 'Dr. Mohana Mishra',
+        specialty: 'Dermatologist',
+        field: 'Dermatology & Skin Care',
+        fieldBlurb: 'Acne management, pigmentation, hair loss and advanced laser treatments for healthy, confident skin.',
+        qualifications: 'MBBS, MD (Dermatology)',
+        experience: '12+ years',
+        gradient: 'from-teal-500 to-emerald-300',
+        focus: ['Acne Management', 'Pigmentation Disorders', 'Hair Loss Treatments', 'Laser Procedures'],
+        photo: 'images/dr-mohana-mishra.jpg',
+        bio: 'Dr. Mohana Mishra is a board-certified dermatologist with 12+ years of experience in clinical and cosmetic dermatology. She specializes in acne management, pigmentation disorders, hair loss treatments, and advanced laser procedures. Known for her gentle approach and evidence-based care, she helps patients achieve healthy, confident skin.',
+      },
+      {
+        id: 'dr-arya-wagh',
+        name: 'Dr. Arya Wagh',
+        specialty: 'Dentist',
+        field: 'Dental Care',
+        fieldBlurb: 'Painless dentistry, root canal therapy, smile design and modern restorative treatments.',
+        qualifications: 'BDS, MDS (Conservative Dentistry)',
+        experience: '8+ years',
+        gradient: 'from-sky-500 to-teal-300',
+        focus: ['Root Canal Therapy', 'Smile Design', 'Restorative Dentistry', 'Cosmetic Procedures'],
+        photo: 'images/dr-arya-wagh.jpg',
+        bio: 'Dr. Arya Wagh is a skilled dental surgeon dedicated to painless dentistry and smile design. With expertise in restorative dentistry, root canal therapy, and cosmetic procedures, he combines modern technology with a warm chairside manner to make every visit comfortable and stress-free.',
+      },
+      {
+        id: 'dr-shivansh-rajput',
+        name: 'Dr. Shivansh Rajput',
+        specialty: 'Physiotherapist',
+        field: 'Physiotherapy & Rehabilitation',
+        fieldBlurb: 'Sports injuries, post-surgical recovery and chronic pain management with personalized plans.',
+        qualifications: 'BPT, MPT (Orthopedics)',
+        experience: '10+ years',
+        gradient: 'from-orange-400 to-mint',
+        focus: ['Sports Injuries', 'Post-Surgical Recovery', 'Chronic Pain', 'Manual Therapy'],
+        photo: 'images/dr-shivansh-rajput.jpg',
+        bio: 'Dr. Shivansh Rajput is a rehabilitation specialist focused on sports injuries, post-surgical recovery, and chronic pain management. His personalized physiotherapy plans blend manual therapy, exercise science, and patient education to restore mobility and improve quality of life.',
+      },
+      {
+        id: 'dr-ritika-sahu',
+        name: 'Dr. Ritika Sahu',
+        specialty: 'Gynecologist',
+        field: "Women's Health",
+        fieldBlurb: 'Prenatal care, safe deliveries, fertility guidance and menopause management with compassion.',
+        qualifications: 'MBBS, MS (Obstetrics & Gynecology)',
+        experience: '15+ years',
+        gradient: 'from-rose-400 to-mint',
+        focus: ['Prenatal Care', 'Safe Deliveries', 'Fertility Guidance', 'Menopause Management'],
+        photo: 'images/dr-ritika-sahu.jpg',
+        bio: "Dr. Ritika Sahu is an experienced obstetrician and gynecologist committed to women's health across every life stage. From prenatal care and safe deliveries to fertility guidance and menopause management, she provides compassionate, confidential, and comprehensive care in a welcoming environment.",
+      },
+    ];
+
+    const TIME_SLOTS = ['09:00–10:00', '10:00–11:00', '11:00–12:00', '14:00–15:00', '15:00–16:00', '16:00–17:00', '17:00–18:00'];
+    const HOSPITAL_QUOTES = [
+      'Healing with heart, treating with science.',
+      'Where every patient is family.',
+      'Trusted hands. Compassionate hearts. Better health.',
+      'Your wellness is our life\u2019s work.',
+    ];
+    const SPECIALTY_ICONS = {
+      'dr-subhash-rajput': 'stethoscope',
+      'dr-mohana-mishra': 'sparkles',
+      'dr-arya-wagh': 'smile',
+      'dr-shivansh-rajput': 'activity',
+      'dr-ritika-sahu': 'heart-handshake',
+    };
+    const FACILITIES = [
+      { name: 'Outpatient Wing (OPD)', icon: 'stethoscope', photo: 'images/facility-opd.jpg' },
+      { name: 'Diagnostics & Lab',     icon: 'microscope',  photo: 'images/facility-lab.jpg' },
+      { name: '24/7 Pharmacy',         icon: 'pill',        photo: 'images/facility-pharmacy.jpg' },
+      { name: 'Emergency Care',        icon: 'siren',       photo: 'images/facility-emergency.jpg' },
+    ];
+
+    /* ── Helpers ──────────────────────────────────────────── */
+    function uuid() {
+      if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        const r = (Math.random() * 16) | 0;
+        return (c === 'x' ? r : (r & 0x3) | 0x8).toString(16);
+      });
+    }
+
+    /* XSS protection — escape ALL user-provided content before
+       it touches innerHTML (patient names, reviews, admin tables). */
+    function escapeHTML(value) {
+      return String(value == null ? '' : value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    /* FIX 9: single-letter names now return the letter itself,
+       not '?'. Empty/punctuation-only input still returns '?'. */
+    function initialsOf(name) {
+      const cleaned = String(name || '').replace('Dr. ', '');
+      const words = cleaned
+        .replace(/[^A-Za-z\u00C0-\u024F ]/g, ' ')
+        .trim()
+        .split(/\s+/)
+        .filter(Boolean);
+      if (words.length === 1 && words[0].length === 1) return words[0].toUpperCase();
+      return (words.map(function (w) { return w[0]; }).join('').slice(0, 2).toUpperCase()) || '?';
+    }
+
+    function timeAgo(dateStr) {
+      const then = new Date(dateStr).getTime();
+      if (isNaN(then)) return '';
+      const s = Math.floor(Math.max(0, Date.now() - then) / 1000);
+      if (s < 60) return 'just now';
+      const m = Math.floor(s / 60);
+      if (m < 60) return m + ' minute' + (m > 1 ? 's' : '') + ' ago';
+      const h = Math.floor(m / 60);
+      if (h < 24) return h + ' hour' + (h > 1 ? 's' : '') + ' ago';
+      const d = Math.floor(h / 24);
+      if (d < 7) return d + ' day' + (d > 1 ? 's' : '') + ' ago';
+      const w = Math.floor(d / 7);
+      if (w < 5) return w + ' week' + (w > 1 ? 's' : '') + ' ago';
+      const mo = Math.floor(d / 30);
+      if (mo < 12) return mo + ' month' + (mo > 1 ? 's' : '') + ' ago';
+      const y = Math.floor(d / 365);
+      return y + ' year' + (y > 1 ? 's' : '') + ' ago';
+    }
+
+    /* FIX 10: date-only strings (YYYY-MM-DD) are parsed as LOCAL
+       dates to avoid timezone off-by-one errors. Other formats
+       keep the existing behavior. */
+    function fmtDate(d) {
+      if (!d) return '—';
+      const s = String(d);
+      let dt;
+      if (/^\d{4}-\d{2}-\d{2}$/.test(s)) {
+        const p = s.split('-').map(Number);
+        dt = new Date(p[0], p[1] - 1, p[2]);
+      } else {
+        dt = new Date(s);
+      }
+      return isNaN(dt) ? s : dt.toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' });
+    }
+
+    function fmtDateTime(d) {
+      const dt = new Date(d);
+      return isNaN(dt) ? String(d) : dt.toLocaleString();
+    }
+
+    /* Short reference from a uuid (matches the booking success ref) */
+    function shortRef(id) {
+      return String(id || '').replace(/-/g, '').slice(-8).toUpperCase();
+    }
+
+    function imageSlotHTML(opts) {
+      const ph = '<div class="absolute inset-0 flex flex-col items-center justify-center gap-1 border-2 border-dashed border-teal-300 bg-mint/10 text-primary">' +
+        '<i data-lucide="' + opts.icon + '" class="' + (opts.iconClass || 'h-6 w-6') + '"></i>' +
+        '<span class="text-[9px] font-semibold uppercase tracking-wider">' + (opts.label || 'Photo') + '</span></div>';
+      const img = opts.photo
+        ? '<img src="' + opts.photo + '" alt="' + (opts.alt || '') + '" loading="lazy" class="absolute inset-0 h-full w-full object-cover" onerror="this.remove()" />'
+        : '';
+      return ph + img;
+    }
+
+    function parseDOB(str) {
+      const s = (str || '').trim();
+      let d, m, y, m1;
+      m1 = s.match(/^(\d{1,2})[\/\-.](\d{1,2})[\/\-.](\d{4})$/);
+      if (m1) { d = +m1[1]; m = +m1[2]; y = +m1[3]; }
+      else {
+        m1 = s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+        if (!m1) return null;
+        y = +m1[1]; m = +m1[2]; d = +m1[3];
+      }
+      const dt = new Date(y, m - 1, d);
+      if (dt.getFullYear() !== y || dt.getMonth() !== m - 1 || dt.getDate() !== d) return null;
+      return dt;
+    }
+
+    function ageFromDOB(dt) {
+      const t = new Date();
+      let a = t.getFullYear() - dt.getFullYear();
+      const mDiff = t.getMonth() - dt.getMonth();
+      if (mDiff < 0 || (mDiff === 0 && t.getDate() < dt.getDate())) a--;
+      return a;
+    }
+
+    /* ── Toast ────────────────────────────────────────────── */
+    const toastHost = document.getElementById('toast-host');
+    function showToast(msg, type) {
+      type = type || 'success';
+      const el = document.createElement('div');
+      el.className = 'pointer-events-auto flex items-start gap-3 rounded-xl border bg-white p-4 shadow-soft opacity-0 translate-y-4 transition-all duration-300 ' +
+        (type === 'error' ? 'border-red-100' : 'border-teal-100');
+      el.innerHTML =
+        '<i data-lucide="' + (type === 'error' ? 'alert-circle' : 'check-circle-2') + '" class="mt-0.5 h-5 w-5 shrink-0 ' + (type === 'error' ? 'text-red-500' : 'text-primary') + '"></i>' +
+        '<p class="text-sm leading-relaxed text-charcoal"></p>';
+      el.querySelector('p').textContent = msg;
+      toastHost.appendChild(el);
+      if (window.lucide) lucide.createIcons();
+      requestAnimationFrame(function () { el.classList.remove('opacity-0', 'translate-y-4'); });
+      setTimeout(function () {
+        el.classList.add('opacity-0', 'translate-y-4');
+        setTimeout(function () { el.remove(); }, 300);
+      }, 4000);
+    }
+
+    /* ── Hero background ──────────────────────────────────── */
+    const BEAT = 'h100 q10 -14 20 0 h20 l8 10 10 -90 10 100 6 -20 h40 q14 -18 28 0 h58';
+    const ECG_D = 'M0 100 ' + BEAT + ' ' + BEAT + ' ' + BEAT + ' ' + BEAT;
+    document.querySelectorAll('.ecg-path').forEach(function (p) { p.setAttribute('d', ECG_D); });
+
+    const pc = document.getElementById('particles');
+    for (let i = 0; i < 18; i++) {
+      const s = document.createElement('span');
+      s.className = 'particle';
+      const size = 4 + Math.random() * 9;
+      s.style.left = (Math.random() * 100) + '%';
+      s.style.width = size + 'px';
+      s.style.height = size + 'px';
+      s.style.setProperty('--o', (0.15 + Math.random() * 0.35).toFixed(2));
+      s.style.animationDuration = (16 + Math.random() * 12) + 's';
+      s.style.animationDelay = (Math.random() * 14) + 's';
+      pc.appendChild(s);
+    }
+
+    /* ── Render static sections ───────────────────────────── */
+    document.getElementById('specialties').innerHTML = doctors.map(function (d, i) {
+      return '<div data-reveal class="h-full" style="transition-delay:' + (i * 60) + 'ms">' +
+        '<a href="#/doctors" class="group flex h-full flex-col rounded-2xl border border-teal-100/80 bg-white p-6 shadow-card transition-all duration-300 hover:-translate-y-1 hover:border-mint hover:shadow-soft">' +
+          '<span class="flex h-12 w-12 items-center justify-center rounded-xl bg-mint/20 text-primary transition-colors group-hover:bg-primary group-hover:text-white"><i data-lucide="' + SPECIALTY_ICONS[d.id] + '" class="h-6 w-6"></i></span>' +
+          '<h3 class="mt-5 font-display text-lg font-bold text-charcoal">' + d.field + '</h3>' +
+          '<p class="mt-2 flex-1 text-sm leading-relaxed text-gray-600">' + d.fieldBlurb + '</p>' +
+          '<span class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-primary">Meet the specialist <i data-lucide="arrow-right" class="h-4 w-4 transition-transform group-hover:translate-x-1"></i></span>' +
+        '</a></div>';
+    }).join('');
+
+    function doctorCardHTML(d, compact, i) {
+      const tags = compact ? '' :
+        '<div class="mt-4 flex flex-wrap gap-2">' + d.focus.map(function (f) { return '<span class="tag">' + f + '</span>'; }).join('') + '</div>';
+      const bio = compact ? d.fieldBlurb : d.bio;
+      return '<div data-reveal class="h-full" style="transition-delay:' + (i * 60) + 'ms">' +
+        '<article class="flex h-full flex-col rounded-2xl border border-teal-100/80 bg-white p-6 shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-soft">' +
+          '<div class="flex items-start gap-4">' +
+            '<div class="relative h-16 w-16 shrink-0 overflow-hidden rounded-2xl">' +
+              imageSlotHTML({ icon: 'image-plus', label: 'Photo', photo: d.photo, alt: d.name, iconClass: 'h-5 w-5' }) +
+            '</div>' +
+            '<div><h3 class="font-display text-lg font-bold text-charcoal">' + d.name + '</h3>' +
+            '<span class="chip mt-1.5 inline-block">' + d.specialty + '</span></div>' +
+          '</div>' +
+          '<div class="mt-4 space-y-1.5 text-sm text-gray-600">' +
+            '<p class="flex items-center gap-2"><i data-lucide="graduation-cap" class="h-4 w-4 shrink-0 text-primary"></i>' + d.qualifications + '</p>' +
+            '<p class="flex items-center gap-2"><i data-lucide="briefcase" class="h-4 w-4 shrink-0 text-primary"></i>' + d.experience + ' experience</p>' +
+          '</div>' +
+          '<p class="mt-4 flex-1 text-sm leading-relaxed text-gray-600">' + bio + '</p>' +
+          tags +
+          '<a href="#/book?doctor=' + encodeURIComponent(d.name) + '" class="btn-teal mt-6 w-full !py-2.5"><i data-lucide="calendar-check" class="h-4 w-4"></i>Book with ' + d.name + '</a>' +
+        '</article></div>';
+    }
+    document.getElementById('home-doctors').innerHTML = doctors.map(function (d, i) { return doctorCardHTML(d, true, i); }).join('');
+    document.getElementById('all-doctors').innerHTML = doctors.map(function (d, i) { return doctorCardHTML(d, false, i); }).join('');
+
+    document.getElementById('facilities').innerHTML = FACILITIES.map(function (f, i) {
+      return '<div data-reveal class="h-full" style="transition-delay:' + (i * 60) + 'ms">' +
+        '<figure class="h-full rounded-2xl border border-teal-100/80 bg-white p-3 shadow-card">' +
+          '<div class="relative aspect-[4/3] overflow-hidden rounded-xl">' +
+            imageSlotHTML({ icon: f.icon, label: 'Add photo', photo: f.photo, alt: f.name, iconClass: 'h-8 w-8' }) +
+          '</div>' +
+          '<figcaption class="flex items-center gap-2 px-2 py-3 text-sm font-semibold text-charcoal"><i data-lucide="' + f.icon + '" class="h-4 w-4 shrink-0 text-primary"></i>' + f.name + '</figcaption>' +
+        '</figure></div>';
+    }).join('');
+
+    document.getElementById('philosophy').innerHTML = HOSPITAL_QUOTES.map(function (q, i) {
+      return '<div data-reveal class="h-full" style="transition-delay:' + (i * 60) + 'ms">' +
+        '<figure class="flex h-full items-start gap-4 rounded-2xl border border-teal-100/80 bg-white p-6 shadow-card">' +
+          '<i data-lucide="quote" class="mt-1 h-5 w-5 shrink-0 text-mint"></i>' +
+          '<blockquote class="font-display text-lg italic leading-snug text-charcoal">' + q + '</blockquote>' +
+        '</figure></div>';
+    }).join('');
+
+    document.getElementById('footer-specialties').innerHTML = doctors.map(function (d) {
+      return '<li><a href="#/doctors" class="transition hover:text-primary">' + d.field + '</a></li>';
+    }).join('');
+
+    if (LOGO_PATH) {
+      ['brand-icon', 'footer-brand-icon'].forEach(function (id) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        const img = document.createElement('img');
+        img.src = LOGO_PATH;
+        img.alt = 'MedPlus Hospital logo';
+        img.className = 'absolute inset-0 h-full w-full bg-white object-contain';
+        img.onerror = function () { this.remove(); };
+        el.appendChild(img);
+      });
+    }
+
+    /* ── DOM refs ─────────────────────────────────────────── */
+    const header = document.getElementById('site-header');
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const iconMenu = document.getElementById('icon-menu');
+    const iconClose = document.getElementById('icon-close');
+
+    const form = document.getElementById('booking-form');
+    const submitBtn = document.getElementById('submit-btn');
+    const btnLabel = document.getElementById('btn-label');
+    const btnSpinner = document.getElementById('btn-spinner');
+    const formWrap = document.getElementById('form-wrap');
+    const successBox = document.getElementById('booking-success');
+    const doctorSel = document.getElementById('doctor-select');
+    const dobInput = document.getElementById('f-dob');
+
+    /* FIX: booking date bounds are computed via a function so
+       they can be refreshed at submit time (handles tabs left
+       open past midnight). Max is today + 90 days. */
+    const BOOKING_WINDOW_DAYS = 90;
+    function getDateBounds() {
+      const d = new Date();
+      const pad = function (n) { return String(n).padStart(2, '0'); };
+      const today = d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+      const maxD = new Date(d.getTime() + BOOKING_WINDOW_DAYS * 24 * 60 * 60 * 1000);
+      const max = maxD.getFullYear() + '-' + pad(maxD.getMonth() + 1) + '-' + pad(maxD.getDate());
+      const dateInput = document.getElementById('f-date');
+      dateInput.min = today;
+      dateInput.max = max;
+      return { today: today, max: max };
+    }
+    getDateBounds();
+
+    /* ── Router ───────────────────────────────────────────── */
+    const PAGES = ['home', 'doctors', 'book', 'about', 'contact', 'admin', 'admin/login'];
+
+    /* Maps a route to its section id ('admin/login' → 'page-admin-login'). */
+    function pageIdFor(route) {
+      if (route === 'admin/login') return 'page-admin-login';
+      return 'page-' + route;
+    }
+
+    function parseHash() {
+      const raw = location.hash.replace(/^#\/?/, '');
+      const parts = raw.split('?');
+      return { route: parts[0] || 'home', params: new URLSearchParams(parts[1] || '') };
+    }
+
+    function setActiveNav(route) {
+      document.querySelectorAll('.nav-link').forEach(function (a) {
+        const active = a.dataset.route === route;
+        if (a.classList.contains('mobile-link')) {
+          a.classList.toggle('bg-mint/15', active);
+          a.classList.toggle('text-primary-dark', active);
+          a.classList.toggle('text-gray-700', !active);
+        } else {
+          a.classList.toggle('text-primary', active);
+          a.classList.toggle('border-mint', active);
+          a.classList.toggle('text-gray-600', !active);
+          a.classList.toggle('border-transparent', !active);
+        }
+      });
+    }
+
+    function closeMobileMenu() {
+      if (!mobileMenu || !menuBtn || !iconMenu || !iconClose) return;
+      mobileMenu.classList.add('hidden');
+      iconMenu.classList.remove('hidden');
+      iconClose.classList.add('hidden');
+      menuBtn.setAttribute('aria-expanded', 'false');
+    }
+
+    function hideAllPagesExcept(id) {
+      document.querySelectorAll('.page').forEach(function (p) {
+        if (p.id === id) p.classList.remove('hidden');
+        else p.classList.add('hidden');
+      });
+    }
+
+    /* FIX: noindex/nofollow applied dynamically on admin routes,
+       restored to index,follow on public routes. */
+    function setRobotsMeta(value) {
+      let m = document.querySelector('meta[name="robots"]');
+      if (!m) {
+        m = document.createElement('meta');
+        m.name = 'robots';
+        document.head.appendChild(m);
+      }
+      m.content = value;
+    }
+
+    /* Ignore stale async navigation results when the hash changes mid-check. */
+    let navigationSequence = 0;
+    async function navigate() {
+      const navigationId = ++navigationSequence;
+      const requestedHash = location.hash;
+      const parsed = parseHash();
+      const known = PAGES.indexOf(parsed.route) !== -1;
+      closeMobileMenu();
+
+      /* ── Admin routes: session guard ── */
+      if (parsed.route === 'admin' || parsed.route === 'admin/login') {
+        setActiveNav('');
+        hideAllPagesExcept('page-admin-check');
+        setRobotsMeta('noindex, nofollow');
+        window.scrollTo(0, 0);
+
+        if (!sb) {
+          showToast('Could not reach the authentication service. Check your connection.', 'error');
+          location.hash = '#/';
+          navigate();
+          return;
+        }
+
+        let session = null;
+        try {
+          const { data } = await sb.auth.getSession();
+          session = data && data.session ? data.session : null;
+        } catch (err) {
+          console.error('[admin] getSession failed:', err);
+        }
+
+        /* A slower auth response must never override a newer route. */
+        if (navigationId !== navigationSequence || location.hash !== requestedHash) return;
+
+        if (parsed.route === 'admin' && !session) {
+          location.hash = '#/admin/login';
+          return;
+        }
+        if (parsed.route === 'admin/login' && session) {
+          location.hash = '#/admin';
+          return;
+        }
+
+        hideAllPagesExcept(pageIdFor(parsed.route));
+
+        if (parsed.route === 'admin') {
+          const emailEl = document.getElementById('admin-email-label');
+          if (emailEl && session.user && session.user.email) emailEl.textContent = session.user.email;
+          loadAdminData();
+        }
+        return;
+      }
+
+      /* ── Public routes ── */
+      setRobotsMeta('index, follow');
+      document.querySelectorAll('.page').forEach(function (p) { p.classList.add('hidden'); });
+      const target = document.getElementById(known ? pageIdFor(parsed.route) : 'page-404');
+      if (target) target.classList.remove('hidden');
+      setActiveNav(known ? parsed.route : '');
+      if (parsed.route === 'book') prefillDoctor(parsed.params.get('doctor'));
+      window.scrollTo(0, 0);
+    }
+    window.addEventListener('hashchange', navigate);
+
+    /* ── Navbar ───────────────────────────────────────────── */
+    function onScroll() {
+      const s = window.scrollY > 8;
+      header.classList.toggle('shadow-soft', s);
+      header.classList.toggle('bg-white/80', s);
+      header.classList.toggle('border-teal-100/70', s);
+      header.classList.toggle('bg-white/50', !s);
+      header.classList.toggle('border-transparent', !s);
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    if (menuBtn) {
+      menuBtn.addEventListener('click', function () {
+        const open = mobileMenu.classList.toggle('hidden') === false;
+        menuBtn.setAttribute('aria-expanded', String(open));
+        iconMenu.classList.toggle('hidden', open);
+        iconClose.classList.toggle('hidden', !open);
+      });
+    }
+
+    /* ── Scroll-reveal (with fallback) ────────────────────── */
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { e.target.classList.add('revealed'); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+      document.querySelectorAll('[data-reveal]').forEach(function (el) { io.observe(el); });
+    } else {
+      document.querySelectorAll('[data-reveal]').forEach(function (el) { el.classList.add('revealed'); });
+    }
+
+    /* ── Quote rotator ────────────────────────────────────── */
+    const quoteEl = document.getElementById('quote-rotator');
+    let qi = 0;
+    setInterval(function () {
+      quoteEl.classList.add('opacity-0');
+      setTimeout(function () {
+        qi = (qi + 1) % HOSPITAL_QUOTES.length;
+        quoteEl.textContent = '\u201C' + HOSPITAL_QUOTES[qi] + '\u201D';
+        quoteEl.classList.remove('opacity-0');
+      }, 450);
+    }, 4500);
+
+    /* ── Booking form (REAL Supabase insert) ──────────────── */
+    doctors.forEach(function (d) {
+      const o = document.createElement('option');
+      o.value = d.name;
+      o.textContent = d.name + ' — ' + d.specialty;
+      doctorSel.appendChild(o);
+    });
+    TIME_SLOTS.forEach(function (s) {
+      const o = document.createElement('option');
+      o.value = s;
+      o.textContent = s;
+      form.elements.time_slot.appendChild(o);
+    });
+
+    function setError(key, msg) {
+      const el = document.getElementById('err-' + key);
+      if (!el) return;
+      if (msg) { el.textContent = msg; el.classList.remove('hidden'); }
+      else el.classList.add('hidden');
+    }
+
+    function prefillDoctor(name) {
+      if (name && doctors.some(function (d) { return d.name === name; })) {
+        form.elements.doctor.value = name;
+      }
+    }
+
+    dobInput.addEventListener('input', function () {
+      let v = this.value.replace(/[^\d]/g, '').slice(0, 8);
+      if (v.length > 4) this.value = v.slice(0, 2) + '/' + v.slice(2, 4) + '/' + v.slice(4);
+      else if (v.length > 2) this.value = v.slice(0, 2) + '/' + v.slice(2);
+      else this.value = v;
+      setError('dob', null);
+    });
+
+    /* Both input AND change listeners — change also fires on
+       autofill in most browsers, so errors clear properly. */
+    ['full_name', 'gender', 'phone', 'email', 'doctor', 'appointment_date', 'time_slot', 'reason'].forEach(function (n) {
+      form.elements[n].addEventListener('input', function () { setError(n, null); });
+      form.elements[n].addEventListener('change', function () { setError(n, null); });
+    });
+    form.elements.consent.addEventListener('change', function () { setError('consent', null); });
+
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const f = form.elements;
+
+      /* FIX: refresh date bounds at submit time so a tab left
+         open past midnight doesn't allow yesterday's date. */
+      const bounds = getDateBounds();
+
+      const values = {
+        full_name: f.full_name.value,
+        dob: f.dob.value,
+        gender: f.gender.value,
+        phone: f.phone.value.trim(),
+        email: f.email.value.trim(),
+        doctor: f.doctor.value,
+        appointment_date: f.appointment_date.value,
+        time_slot: f.time_slot.value,
+        reason: f.reason.value,
+        consent: f.consent.checked,
+      };
+
+      const errors = {};
+      if (values.full_name.trim().length < 2) errors.full_name = 'Please enter your full name';
+      if (!values.dob.trim()) {
+        errors.dob = 'Please enter your date of birth';
+      } else {
+        const dt = parseDOB(values.dob);
+        if (!dt) errors.dob = 'Enter your DOB as DD/MM/YYYY (e.g. 14/08/1992)';
+        else {
+          const age = ageFromDOB(dt);
+          if (age < 0) errors.dob = 'Date of birth can\u2019t be in the future';
+          else if (age > 120) errors.dob = 'Age must be 120 or below';
+        }
+      }
+      if (!values.gender) errors.gender = 'Please select a gender';
+      if (!/^\d{10}$/.test(values.phone)) errors.phone = 'Enter a valid 10-digit phone number';
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) errors.email = 'Enter a valid email address';
+      if (!values.doctor) errors.doctor = 'Please choose a doctor';
+      if (!values.appointment_date) errors.appointment_date = 'Please choose a date';
+      else if (values.appointment_date < bounds.today) errors.appointment_date = 'Date must be today or in the future';
+      else if (values.appointment_date > bounds.max) errors.appointment_date = 'Date must be within the next ' + BOOKING_WINDOW_DAYS + ' days';
+      if (!values.time_slot) errors.time_slot = 'Please choose a time slot';
+      if (values.reason.trim().length < 10) errors.reason = 'Please describe your symptoms (at least 10 characters)';
+      if (!values.consent) errors.consent = 'Please agree so we can contact you about your appointment';
+
+      Object.keys(errors).forEach(function (k) { setError(k, errors[k]); });
+      const firstKey = Object.keys(errors)[0];
+      if (firstKey) { form.elements[firstKey].focus(); return; }
+
+      if (!sb) {
+        showToast('Could not reach the booking server. Check your internet connection and try again.', 'error');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      btnSpinner.classList.remove('hidden');
+      document.getElementById('btn-icon').classList.add('hidden');
+      btnLabel.textContent = 'Booking your appointment…';
+
+      try {
+        const dt = parseDOB(values.dob);
+        const age = ageFromDOB(dt);
+
+        const { data, error } = await sb.from('appointments')
+          .insert({
+            full_name: values.full_name.trim(),
+            age: age,
+            gender: values.gender,
+            phone: values.phone,
+            email: values.email,
+            doctor: values.doctor,
+            appointment_date: values.appointment_date,
+            time_slot: values.time_slot,
+            reason: values.reason.trim(),
+          })
+          .select('id')
+          .single();
+
+        if (error) throw error;
+
+        const ref = shortRef(data.id);
+        document.getElementById('ref-id').textContent = '#' + ref;
+        document.getElementById('sum-doctor').textContent = values.doctor;
+        document.getElementById('sum-age').textContent = age + ' years';
+        document.getElementById('sum-date').textContent = values.appointment_date;
+        document.getElementById('sum-slot').textContent = values.time_slot;
+        formWrap.classList.add('hidden');
+        successBox.classList.remove('hidden');
+        successBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        showToast('Appointment booked successfully!', 'success');
+      } catch (err) {
+        console.error('[booking] insert failed:', err);
+        showToast('We could not confirm the booking. Please contact the hospital before submitting again to avoid a duplicate appointment.', 'error');
+      } finally {
+        submitBtn.disabled = false;
+        btnSpinner.classList.add('hidden');
+        document.getElementById('btn-icon').classList.remove('hidden');
+        btnLabel.textContent = 'Confirm Booking';
+      }
+    });
+
+    document.getElementById('book-again').addEventListener('click', function () {
+      form.reset();
+      /* Refresh the allowed booking window in case this page stayed open
+         across midnight or the previous booking session. */
+      getDateBounds();
+      successBox.classList.add('hidden');
+      formWrap.classList.remove('hidden');
+      document.querySelectorAll('#booking-form .error-text').forEach(function (el) {
+        el.classList.add('hidden');
+      });
+      const reduceMotion = window.matchMedia &&
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      formWrap.scrollIntoView({
+        behavior: reduceMotion ? 'auto' : 'smooth',
+        block: 'start'
+      });
+    });
+
+    /* ── Reviews (REAL Supabase: fetch approved + submit) ─── */
+    const revGrid = document.getElementById('reviews-grid');
+    const revSkeleton = document.getElementById('reviews-skeleton');
+    const revEmpty = document.getElementById('reviews-empty');
+    const revError = document.getElementById('reviews-error');
+
+    function starsHTML(rating) {
+      const safeRating = Math.max(0, Math.min(5, Number.isFinite(Number(rating)) ? Math.round(Number(rating)) : 0));
+      let out = '<div class="flex gap-0.5" aria-label="' + safeRating + ' out of 5 stars">';
+      for (let n = 1; n <= 5; n++) {
+        out += '<i data-lucide="star" class="h-4 w-4 ' + (n <= safeRating ? 'text-coral' : 'text-gray-300') + '"' + (n <= safeRating ? ' fill="currentColor"' : '') + '></i>';
+      }
+      return out + '</div>';
+    }
+
+    function renderReviews(list) {
+      if (!list || list.length === 0) {
+        revEmpty.classList.remove('hidden');
+        revGrid.classList.add('hidden');
+        return;
+      }
+      revEmpty.classList.add('hidden');
+      revGrid.classList.remove('hidden');
+
+      revGrid.innerHTML = list.map(function (r) {
+        const safeName = escapeHTML(r.patient_name);
+        const safeInitials = escapeHTML(initialsOf(r.patient_name));
+        const safeMessage = escapeHTML(r.message);
+        const docPill = r.doctor
+          ? '<span class="rounded-full bg-mint/20 px-3 py-0.5 text-xs font-semibold text-primary-dark">' + escapeHTML(r.doctor) + '</span>'
+          : '';
+        return '<figure class="flex h-full flex-col rounded-2xl border border-teal-100/80 bg-white p-6 shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-soft">' +
+          '<div class="flex items-center gap-3">' +
+            '<span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-mint/25 font-semibold text-primary-dark">' + safeInitials + '</span>' +
+            '<div>' +
+              '<p class="text-sm font-semibold text-charcoal">' + safeName + '</p>' +
+              '<p class="text-xs text-gray-500">' + timeAgo(r.created_at) + '</p>' +
+            '</div>' +
+          '</div>' +
+          '<div class="mt-4 flex flex-wrap items-center gap-3">' + starsHTML(r.rating) + docPill + '</div>' +
+          '<blockquote class="mt-4 line-clamp-5 flex-1 text-sm leading-relaxed text-gray-600">\u201C' + safeMessage + '\u201D</blockquote>' +
+        '</figure>';
+      }).join('');
+
+      if (window.lucide) lucide.createIcons();
+    }
+
+    async function loadReviews() {
+      revError.classList.add('hidden');
+      revEmpty.classList.add('hidden');
+      revGrid.classList.add('hidden');
+      revSkeleton.classList.remove('hidden');
+
+      if (!sb) {
+        revSkeleton.classList.add('hidden');
+        revError.textContent = 'Could not reach the review server. Please check your connection.';
+        revError.classList.remove('hidden');
+        return;
+      }
+
+      try {
+        const { data, error } = await sb.from('reviews')
+          .select('id, patient_name, rating, doctor, message, created_at')
+          .eq('is_approved', true)
+          .order('created_at', { ascending: false })
+          .limit(6);
+
+        revSkeleton.classList.add('hidden');
+        if (error) throw error;
+        renderReviews(data);
+      } catch (err) {
+        console.error('[reviews] fetch failed:', err);
+        revSkeleton.classList.add('hidden');
+        revError.textContent = 'Could not load reviews right now. Please try again later.';
+        revError.classList.remove('hidden');
+      }
+    }
+
+    /* ── Review modal ─────────────────────────────────────── */
+    const reviewModal = document.getElementById('review-modal');
+    const reviewFormView = document.getElementById('review-form-view');
+    const reviewThanks = document.getElementById('review-thanks');
+    const reviewForm = document.getElementById('review-form');
+    const rvName = document.getElementById('rv-name');
+    const rvDoctor = document.getElementById('rv-doctor');
+    const rvMessage = document.getElementById('rv-message');
+    const rvCounter = document.getElementById('rv-counter');
+    const rvServerError = document.getElementById('rv-server-error');
+    const rvSubmit = document.getElementById('rv-submit');
+    const rvSpinner = document.getElementById('rv-spinner');
+    const rvBtnLabel = document.getElementById('rv-btn-label');
+    const starRow = document.getElementById('star-row');
+    const ratingLabel = document.getElementById('rating-label');
+
+    let reviewRating = 0;
+    let thanksTimer = null;
+
+    /* Unselected stars explicitly get fill="none" (no black stars). */
+    function paintStars(n) {
+      starRow.querySelectorAll('svg').forEach(function (svg, idx) {
+        svg.classList.toggle('text-coral', idx < n);
+        svg.classList.toggle('text-gray-300', idx >= n);
+        svg.setAttribute('fill', idx < n ? 'currentColor' : 'none');
+      });
+    }
+
+    starRow.querySelectorAll('.star-btn').forEach(function (btn) {
+      btn.addEventListener('mouseenter', function () { paintStars(Number(btn.dataset.star)); });
+      btn.addEventListener('click', function () {
+        reviewRating = Number(btn.dataset.star);
+        paintStars(reviewRating);
+        ratingLabel.textContent = reviewRating + '/5';
+        ratingLabel.classList.remove('hidden');
+        document.getElementById('err-rv-rating').classList.add('hidden');
+      });
+    });
+    starRow.addEventListener('mouseleave', function () { paintStars(reviewRating); });
+
+    rvMessage.addEventListener('input', function () {
+      rvCounter.textContent = this.value.length + '/1000';
+      rvCounter.classList.toggle('text-red-600', this.value.length > 1000);
+      document.getElementById('err-rv-message').classList.add('hidden');
+    });
+    rvName.addEventListener('input', function () {
+      document.getElementById('err-rv-name').classList.add('hidden');
+    });
+
+    function rvFieldError(id, msg) {
+      const el = document.getElementById(id);
+      if (msg) { el.textContent = msg; el.classList.remove('hidden'); }
+      else el.classList.add('hidden');
+    }
+
+    function openReviewModal() {
+      reviewFormView.classList.remove('hidden');
+      reviewThanks.classList.add('hidden');
+      rvServerError.classList.add('hidden');
+      rvServerError.textContent = '';
+      reviewForm.reset();
+      reviewRating = 0;
+      paintStars(0);
+      ratingLabel.classList.add('hidden');
+      ratingLabel.textContent = ''; /* FIX 8: clear stale label text */
+      rvCounter.textContent = '0/1000';
+      rvFieldError('err-rv-name', null);
+      rvFieldError('err-rv-rating', null);
+      rvFieldError('err-rv-message', null);
+      reviewModal.classList.remove('hidden');
+      reviewModal.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeReviewModal() {
+      if (thanksTimer) { clearTimeout(thanksTimer); thanksTimer = null; }
+      reviewModal.classList.add('hidden');
+      reviewModal.classList.remove('flex');
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('open-review-modal').addEventListener('click', openReviewModal);
+    document.getElementById('review-x').addEventListener('click', closeReviewModal);
+    document.getElementById('review-thanks-close').addEventListener('click', closeReviewModal);
+    reviewModal.addEventListener('click', function (e) {
+      if (e.target === reviewModal) closeReviewModal();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !reviewModal.classList.contains('hidden')) closeReviewModal();
+    });
+
+    reviewForm.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      let bad = false;
+
+      const name = rvName.value.trim();
+      if (name.length < 2 || name.length > 60) {
+        rvFieldError('err-rv-name', 'Name must be 2–60 characters.');
+        bad = true;
+      }
+      if (reviewRating < 1 || reviewRating > 5) {
+        rvFieldError('err-rv-rating', 'Please select a star rating (1–5).');
+        bad = true;
+      }
+      const message = rvMessage.value.trim();
+      if (message.length < 10 || message.length > 1000) {
+        rvFieldError('err-rv-message', 'Review must be 10–1000 characters.');
+        bad = true;
+      }
+      if (bad) return;
+
+      if (!sb) {
+        rvServerError.textContent = 'Could not reach the server. Please check your connection and try again.';
+        rvServerError.classList.remove('hidden');
+        rvServerError.classList.add('flex');
+        return;
+      }
+
+      rvSubmit.disabled = true;
+      rvSpinner.classList.remove('hidden');
+      rvBtnLabel.textContent = 'Submitting…';
+
+      try {
+        const { error } = await sb.from('reviews').insert({
+          patient_name: name,
+          rating: reviewRating,
+          doctor: rvDoctor.value || null,
+          message: message,
+        });
+        if (error) throw error;
+
+        reviewFormView.classList.add('hidden');
+        reviewThanks.classList.remove('hidden');
+        thanksTimer = setTimeout(closeReviewModal, 4000);
+      } catch (err) {
+        console.error('[review] insert failed:', err);
+        rvServerError.textContent = 'Could not submit your review right now. Please try again in a moment.';
+        rvServerError.classList.remove('hidden');
+        rvServerError.classList.add('flex');
+      } finally {
+        rvSubmit.disabled = false;
+        rvSpinner.classList.add('hidden');
+        rvBtnLabel.textContent = 'Submit Review';
+      }
+    });
+
+    /* ════════════════════════════════════════════════════════
+       ADMIN PANEL — Supabase Auth (anon key only, no service role)
+       ════════════════════════════════════════════════════════ */
+
+    /* Confirm dialog (promise-based) */
+    const confirmModal = document.getElementById('confirm-modal');
+    let confirmResolver = null;
+
+    function confirmDialog(opts) {
+      return new Promise(function (resolve) {
+        confirmResolver = resolve;
+        document.getElementById('confirm-title').textContent = opts.title || 'Are you sure?';
+        document.getElementById('confirm-message').textContent = opts.message || '';
+        document.getElementById('confirm-ok').textContent = opts.confirmLabel || 'Delete';
+        confirmModal.classList.remove('hidden');
+        confirmModal.classList.add('flex');
+        document.body.style.overflow = 'hidden';
+      });
+    }
+
+    function closeConfirm(result) {
+      confirmModal.classList.add('hidden');
+      confirmModal.classList.remove('flex');
+      document.body.style.overflow = '';
+      if (confirmResolver) { confirmResolver(result); confirmResolver = null; }
+    }
+
+    document.getElementById('confirm-cancel').addEventListener('click', function () { closeConfirm(false); });
+    document.getElementById('confirm-ok').addEventListener('click', function () { closeConfirm(true); });
+    confirmModal.addEventListener('click', function (e) {
+      if (e.target === confirmModal) closeConfirm(false);
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !confirmModal.classList.contains('hidden')) closeConfirm(false);
+    });
+
+    /* ── Admin refs ───────────────────────────────────────── */
+    const ADMIN_STATUSES = ['pending', 'confirmed', 'completed', 'cancelled'];
+    const STATUS_CLASSES = {
+      pending: 'bg-amber-100 text-amber-800',
+      confirmed: 'bg-blue-100 text-blue-800',
+      completed: 'bg-emerald-100 text-emerald-800',
+      cancelled: 'bg-gray-200 text-gray-600',
+    };
+
+    const adminApptsSkeleton = document.getElementById('admin-appts-skeleton');
+    const adminApptsEmpty = document.getElementById('admin-appts-empty');
+    const adminApptsTable = document.getElementById('admin-appts-table');
+    const adminApptsBody = document.getElementById('admin-appts-body');
+    const adminApptsCount = document.getElementById('admin-appts-count');
+
+    const adminReviewsSkeleton = document.getElementById('admin-reviews-skeleton');
+    const adminReviewsEmpty = document.getElementById('admin-reviews-empty');
+    const adminReviewsList = document.getElementById('admin-reviews-list');
+    const adminReviewsCount = document.getElementById('admin-reviews-count');
+
+    const adminLoginForm = document.getElementById('admin-login-form');
+    const adminEmailInput = document.getElementById('admin-email');
+    const adminPasswordInput = document.getElementById('admin-password');
+    const adminLoginError = document.getElementById('admin-login-error');
+    const adminLoginBtn = document.getElementById('admin-login-btn');
+    const adminLoginSpinner = document.getElementById('admin-login-spinner');
+    const adminLoginBtnLabel = document.getElementById('admin-login-btn-label');
+
+    /* FIX 4: module-level guard against overlapping admin fetches. */
+    let adminLoading = false;
+
+    /* Only genuine authentication failures should trigger logout.
+       403 / 42501 / PGRST116 can be authorization, RLS, or query errors. */
+    function isAuthError(err) {
+      if (!err) return false;
+      const status = Number(err.status);
+      const code = String(err.code || '').toUpperCase();
+      const message = String(err.message || '');
+      if (status === 401) return true;
+      if (['PGRST301', 'PGRST302', 'PGRST303'].includes(code)) return true;
+      return /\b(jwt (?:expired|invalid)|invalid jwt|token has expired|refresh token (?:not found|is invalid|has expired)|session (?:not found|expired)|auth session missing)\b/i.test(message);
+    }
+
+    /* FIX 3: navigate() called explicitly so the user never
+       gets stuck on the loader if hashchange doesn't fire. */
+    async function handleAdminAuthError() {
+      showToast('Session expired, please log in again.', 'error');
+
+      try {
+        if (sb) await sb.auth.signOut({ scope: 'local' });
+      } catch (err) {
+        console.error('[admin] sign-out failed:', err);
+      }
+
+      if (location.hash !== '#/admin/login') {
+        location.hash = '#/admin/login';
+      }
+
+      navigate();
+    }
+
+    /* ── Login ────────────────────────────────────────────── */
+    adminLoginForm.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      adminLoginError.classList.add('hidden');
+
+      const email = adminEmailInput.value.trim();
+      const password = adminPasswordInput.value;
+
+      if (!email || !password) {
+        adminLoginError.textContent = 'Please enter your email and password.';
+        adminLoginError.classList.remove('hidden');
+        return;
+      }
+      if (!sb) {
+        adminLoginError.textContent = 'Could not reach the authentication service. Check your connection.';
+        adminLoginError.classList.remove('hidden');
+        return;
+      }
+
+      adminLoginBtn.disabled = true;
+      adminLoginSpinner.classList.remove('hidden');
+      adminLoginBtnLabel.textContent = 'Signing in…';
+
+      try {
+        const { error } = await sb.auth.signInWithPassword({ email: email, password: password });
+        if (error) {
+          console.error('[admin] login failed:', error.message);
+          adminLoginError.textContent = 'Invalid email or password';
+          adminLoginError.classList.remove('hidden');
+          return;
+        }
+
+        /* FIX 5: confirm the session is actually stored before
+           redirecting, avoiding a race where navigate() sees
+           no session and bounces back to login. */
+        await sb.auth.getSession();
+
+        adminPasswordInput.value = '';
+
+        showToast('Welcome back!', 'success');
+        location.hash = '#/admin';
+        navigate(); /* FIX 1: explicit call in case hashchange doesn't fire */
+      } catch (err) {
+        console.error('[admin] login error:', err);
+        adminLoginError.textContent = 'Invalid email or password';
+        adminLoginError.classList.remove('hidden');
+      } finally {
+        adminLoginBtn.disabled = false;
+        adminLoginSpinner.classList.add('hidden');
+        adminLoginBtnLabel.textContent = 'Sign In';
+      }
+    });
+
+    /* ── Logout ───────────────────────────────────────────── */
+    document.getElementById('admin-logout').addEventListener('click', async function () {
+      try {
+        if (sb) await sb.auth.signOut({ scope: 'local' });
+      } catch (err) { /* session may already be gone */ }
+      showToast('Logged out', 'success');
+      location.hash = '#/admin/login';
+      navigate(); /* FIX 2: explicit call so the user never stays on the loader */
+    });
+
+    /* ── Refresh button — FIX 11: only toasts when a fresh
+       load actually ran (bails silently if already loading). ── */
+    document.getElementById('admin-refresh').addEventListener('click', async function () {
+      if (adminLoading) return;
+      const refreshed = await loadAdminData();
+      if (refreshed) showToast('Data refreshed', 'success');
+    });
+
+    /* ── Load admin data ──────────────────────────────────── */
+    async function loadAdminData() {
+      if (adminLoading) return false; /* Avoid overlapping requests. */
+      adminLoading = true;
+
+      if (!sb) {
+        adminApptsSkeleton.classList.add('hidden');
+        adminReviewsSkeleton.classList.add('hidden');
+        showToast('Could not reach the server. Check your connection.', 'error');
+        adminLoading = false;
+        return false;
+      }
+
+      adminApptsEmpty.classList.add('hidden');
+      adminApptsTable.classList.add('hidden');
+      adminReviewsEmpty.classList.add('hidden');
+      adminReviewsList.classList.add('hidden');
+      adminApptsSkeleton.classList.remove('hidden');
+      adminReviewsSkeleton.classList.remove('hidden');
+
+      try {
+        /* Supabase commonly caps a response at 1,000 rows. Fetch pages
+           until the final short page so the admin list is not truncated. */
+        async function fetchAllRows(table, columns) {
+          const pageSize = 500;
+          const allRows = [];
+          for (let from = 0; ; from += pageSize) {
+            const result = await sb.from(table)
+              .select(columns)
+              .order('created_at', { ascending: false })
+              .order('id', { ascending: true })
+              .range(from, from + pageSize - 1);
+            if (result.error) throw result.error;
+            const page = result.data || [];
+            allRows.push.apply(allRows, page);
+            if (page.length < pageSize) break;
+          }
+          return allRows;
+        }
+
+        const results = await Promise.all([
+          fetchAllRows('appointments', 'id, full_name, phone, doctor, appointment_date, time_slot, status, created_at'),
+          fetchAllRows('reviews', 'id, patient_name, rating, doctor, message, created_at, is_approved'),
+        ]);
+
+        adminApptsSkeleton.classList.add('hidden');
+        adminReviewsSkeleton.classList.add('hidden');
+
+        /* Do not render a result after the administrator has left this route. */
+        if (location.hash !== '#/admin') return false;
+        renderAdminAppointments(results[0]);
+        renderAdminReviews(results[1]);
+        return true;
+      } catch (err) {
+        adminApptsSkeleton.classList.add('hidden');
+        adminReviewsSkeleton.classList.add('hidden');
+        console.error('[admin] data fetch failed:', err);
+        if (isAuthError(err) && location.hash === '#/admin') { handleAdminAuthError(); return false; }
+        showToast('Failed to load admin data. Please try again.', 'error');
+        return false;
+      } finally {
+        adminLoading = false;
+      }
+
+    }
+
+    /* ── Render: appointments ─────────────────────────────── */
+    function renderAdminAppointments(rows) {
+      adminApptsCount.textContent = rows.length + (rows.length === 1 ? ' appointment' : ' appointments');
+
+      if (rows.length === 0) {
+        adminApptsEmpty.classList.remove('hidden');
+        adminApptsTable.classList.add('hidden');
+        return;
+      }
+      adminApptsEmpty.classList.add('hidden');
+      adminApptsTable.classList.remove('hidden');
+
+      adminApptsBody.innerHTML = rows.map(function (row) {
+        const statusClass = STATUS_CLASSES[row.status] || 'bg-gray-200 text-gray-600';
+        const options = ADMIN_STATUSES.map(function (s) {
+          return '<option value="' + s + '"' + (s === row.status ? ' selected' : '') + '>' + s + '</option>';
+        }).join('');
+        return '<tr class="border-b border-gray-50 last:border-0 hover:bg-teal-50/30">' +
+          '<td class="px-4 py-3"><span class="font-mono text-xs font-bold text-primary-dark" title="' + escapeHTML(row.id) + '">#' + shortRef(row.id) + '</span></td>' +
+          '<td class="px-4 py-3 font-medium text-charcoal">' + escapeHTML(row.full_name) + '</td>' +
+          '<td class="px-4 py-3 text-gray-600">' + escapeHTML(row.phone) + '</td>' +
+          '<td class="px-4 py-3 text-gray-600">' + escapeHTML(row.doctor) + '</td>' +
+          '<td class="px-4 py-3 text-gray-600">' + escapeHTML(fmtDate(row.appointment_date)) + '</td>' +
+          '<td class="px-4 py-3 text-gray-600">' + escapeHTML(row.time_slot) + '</td>' +
+          '<td class="px-4 py-3">' +
+            /* FIX 7: applied status classes tracked via data-applied-class */
+            '<select data-id="' + escapeHTML(row.id) + '" data-original="' + escapeHTML(row.status) + '" ' +
+              'data-applied-class="' + escapeHTML(statusClass) + '" ' +
+              'class="admin-status-select rounded-lg border border-gray-300 bg-white px-2 py-1 text-xs font-semibold capitalize ' + statusClass + ' focus:outline-none focus:ring-2 focus:ring-primary/20">' +
+              options +
+            '</select>' +
+          '</td>' +
+          '<td class="px-4 py-3 text-xs text-gray-500">' + escapeHTML(fmtDateTime(row.created_at)) + '</td>' +
+          '<td class="px-4 py-3">' +
+            '<button type="button" data-action="delete-appointment" data-id="' + escapeHTML(row.id) + '" ' +
+              'class="inline-flex items-center gap-1 rounded-lg border border-red-200 px-2.5 py-1.5 text-xs font-semibold text-red-600 transition hover:bg-red-50" title="Delete">' +
+              '<i data-lucide="trash-2" class="h-3.5 w-3.5"></i>' +
+            '</button>' +
+          '</td>' +
+        '</tr>';
+      }).join('');
+
+      adminApptsBody.querySelectorAll('.admin-status-select').forEach(function (sel) {
+        sel.addEventListener('change', function () { onAdminStatusChange(sel); });
+      });
+      adminApptsBody.querySelectorAll('[data-action="delete-appointment"]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          const row = rows.find(function (r) { return r.id === btn.dataset.id; });
+          if (row) deleteAdminAppointment(row);
+        });
+      });
+
+      if (window.lucide) lucide.createIcons();
+    }
+
+    async function onAdminStatusChange(selectEl) {
+      const id = selectEl.dataset.id;
+      const original = selectEl.dataset.original;
+      const status = selectEl.value;
+
+      if (!ADMIN_STATUSES.includes(status)) {
+        selectEl.value = original;
+        return;
+      }
+
+      selectEl.disabled = true;
+      try {
+        const { error } = await sb.from('appointments').update({ status: status }).eq('id', id);
+        if (error) throw error;
+        selectEl.dataset.original = status;
+
+        /* FIX 7: remove only the previously applied classes
+           (tracked on the element), then apply the new ones.
+           No more fragile "loop over all statuses" removal. */
+        if (selectEl.dataset.appliedClass) {
+          selectEl.dataset.appliedClass.split(' ').forEach(function (c) {
+            if (c) selectEl.classList.remove(c);
+          });
+        }
+        const newClass = STATUS_CLASSES[status] || 'bg-gray-200 text-gray-600';
+        newClass.split(' ').forEach(function (c) { if (c) selectEl.classList.add(c); });
+        selectEl.dataset.appliedClass = newClass;
+
+        showToast('Status updated to \u201C' + status + '\u201D', 'success');
+      } catch (err) {
+        console.error('[admin] status update failed:', err);
+        selectEl.value = original; /* revert on failure */
+        if (isAuthError(err)) { handleAdminAuthError(); return; }
+        showToast('Could not update status. Please try again.', 'error');
+      } finally {
+        selectEl.disabled = false;
+      }
+    }
+
+    async function deleteAdminAppointment(row) {
+      const ok = await confirmDialog({
+        title: 'Delete appointment?',
+        message: 'This will permanently delete ' + row.full_name + '\u2019s appointment (ref #' + shortRef(row.id) + '). This cannot be undone.',
+        confirmLabel: 'Delete',
+      });
+      if (!ok) return;
+
+      try {
+        const { error } = await sb.from('appointments').delete().eq('id', row.id);
+        if (error) throw error;
+        showToast('Appointment deleted', 'success');
+        loadAdminData();
+      } catch (err) {
+        console.error('[admin] appointment delete failed:', err);
+        if (isAuthError(err)) { handleAdminAuthError(); return; }
+        showToast('Could not delete the appointment. Please try again.', 'error');
+      }
+    }
+
+    /* ── Render: reviews ──────────────────────────────────── */
+    function renderAdminReviews(rows) {
+      const pendingCount = rows.filter(function (r) { return !r.is_approved; }).length;
+      adminReviewsCount.textContent = rows.length + ' total · ' + pendingCount + ' pending';
+
+      if (rows.length === 0) {
+        adminReviewsEmpty.classList.remove('hidden');
+        adminReviewsList.classList.add('hidden');
+        return;
+      }
+      adminReviewsEmpty.classList.add('hidden');
+      adminReviewsList.classList.remove('hidden');
+
+      adminReviewsList.innerHTML = rows.map(function (r) {
+        const badge = r.is_approved
+          ? '<span class="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-semibold text-emerald-800">Approved</span>'
+          : '<span class="rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-semibold text-amber-800">Pending</span>';
+        const docPill = r.doctor
+          ? '<span class="rounded-full bg-mint/20 px-2.5 py-0.5 text-xs font-semibold text-primary-dark">' + escapeHTML(r.doctor) + '</span>'
+          : '';
+        const approveBtn = !r.is_approved
+          ? '<button type="button" data-action="approve-review" data-id="' + escapeHTML(r.id) + '" class="inline-flex items-center gap-1.5 rounded-full bg-emerald-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-emerald-700"><i data-lucide="check" class="h-3.5 w-3.5"></i>Approve</button>'
+          : '';
+        const rejectBtn = r.is_approved
+          ? '<button type="button" data-action="reject-review" data-id="' + escapeHTML(r.id) + '" class="inline-flex items-center gap-1.5 rounded-full bg-amber-500 px-4 py-2 text-xs font-semibold text-white transition hover:bg-amber-600"><i data-lucide="eye-off" class="h-3.5 w-3.5"></i>Reject</button>'
+          : '';
+        return '<article class="flex flex-col rounded-2xl border border-teal-100/80 bg-cream p-5">' +
+          '<div class="flex items-center gap-3">' +
+            '<span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-mint/25 text-sm font-semibold text-primary-dark">' + escapeHTML(initialsOf(r.patient_name)) + '</span>' +
+            '<div class="min-w-0 flex-1">' +
+              '<p class="text-sm font-semibold text-charcoal">' + escapeHTML(r.patient_name) + '</p>' +
+              '<p class="text-xs text-gray-500">' + escapeHTML(timeAgo(r.created_at)) + ' · ' + escapeHTML(fmtDateTime(r.created_at)) + '</p>' +
+            '</div>' +
+            badge +
+          '</div>' +
+          '<div class="mt-3 flex flex-wrap items-center gap-2">' + starsHTML(r.rating) + docPill + '</div>' +
+          '<p class="mt-3 flex-1 whitespace-pre-wrap text-sm leading-relaxed text-gray-600">' + escapeHTML(r.message) + '</p>' +
+          '<div class="mt-4 flex flex-wrap gap-2 border-t border-teal-50 pt-3">' +
+            approveBtn + rejectBtn +
+            '<button type="button" data-action="delete-review" data-id="' + escapeHTML(r.id) + '" class="inline-flex items-center gap-1.5 rounded-full border border-red-200 px-4 py-2 text-xs font-semibold text-red-600 transition hover:bg-red-50"><i data-lucide="trash-2" class="h-3.5 w-3.5"></i>Delete</button>' +
+          '</div>' +
+        '</article>';
+      }).join('');
+
+      adminReviewsList.querySelectorAll('[data-action]').forEach(function (btn) {
+        const id = btn.dataset.id;
+        const row = rows.find(function (r) { return r.id === id; });
+        if (!row) return;
+        btn.addEventListener('click', function () {
+          const action = btn.dataset.action;
+          if (action === 'approve-review') moderateAdminReview(row, true);
+          else if (action === 'reject-review') moderateAdminReview(row, false);
+          else if (action === 'delete-review') deleteAdminReview(row);
+        });
+      });
+
+      if (window.lucide) lucide.createIcons();
+    }
+
+    async function moderateAdminReview(row, approve) {
+      try {
+        const { error } = await sb.from('reviews').update({ is_approved: approve }).eq('id', row.id);
+        if (error) throw error;
+        showToast(approve
+          ? 'Review approved — now visible on the website'
+          : 'Review hidden from the public site', 'success');
+        loadAdminData();
+      } catch (err) {
+        console.error('[admin] review moderation failed:', err);
+        if (isAuthError(err)) { handleAdminAuthError(); return; }
+        showToast('Could not update the review. Please try again.', 'error');
+      }
+    }
+
+    async function deleteAdminReview(row) {
+      const ok = await confirmDialog({
+        title: 'Delete review?',
+        message: 'This will permanently delete the review by ' + row.patient_name + '. This cannot be undone.',
+        confirmLabel: 'Delete',
+      });
+      if (!ok) return;
+
+      try {
+        const { error } = await sb.from('reviews').delete().eq('id', row.id);
+        if (error) throw error;
+        showToast('Review deleted', 'success');
+        loadAdminData();
+      } catch (err) {
+        console.error('[admin] review delete failed:', err);
+        if (isAuthError(err)) { handleAdminAuthError(); return; }
+        showToast('Could not delete the review. Please try again.', 'error');
+      }
+    }
+
+    /* ── Misc ─────────────────────────────────────────────── */
+    document.getElementById('year').textContent = new Date().getFullYear();
+    if (window.lucide) lucide.createIcons();
+
+    /* ── Start everything (LAST, after all declarations) ──── */
+    navigate();
+    loadReviews();
+  </script>
+</body>
+</html>
